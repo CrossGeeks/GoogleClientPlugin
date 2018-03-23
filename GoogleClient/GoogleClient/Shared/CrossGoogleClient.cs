@@ -7,7 +7,7 @@ namespace Plugin.GoogleClient
     /// </summary>
     public static class CrossGoogleClient
     {
-        static Lazy<IGoogleClient> implementation = new Lazy<IGoogleClient>(() => CreateGoogleClient(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+        static Lazy<IGoogleClientManager> implementation = new Lazy<IGoogleClientManager>(() => CreateGoogleClient(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// Gets if the plugin is supported on the current platform.
@@ -19,11 +19,11 @@ namespace Plugin.GoogleClient
         /// <summary>
         /// Current plugin implementation to use
         /// </summary>
-        public static IGoogleClient Current
+        public static IGoogleClientManager Current
         {
             get
             {
-                IGoogleClient ret = implementation.Value;
+                IGoogleClientManager ret = implementation.Value;
                 if (ret == null)
                 {
                     throw NotImplementedInReferenceAssembly();
@@ -32,13 +32,13 @@ namespace Plugin.GoogleClient
             }
         }
 
-        static IGoogleClient CreateGoogleClient()
+        static IGoogleClientManager CreateGoogleClient()
         {
 #if NETSTANDARD1_0 || NETSTANDARD2_0
             return null;
 #else
 #pragma warning disable IDE0022 // Use expression body for methods
-            return new GoogleClientImplementation();
+            return new GoogleClientManager();
 #pragma warning restore IDE0022 // Use expression body for methods
 #endif
         }

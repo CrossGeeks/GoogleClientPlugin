@@ -7,7 +7,7 @@ namespace Plugin.GoogleClient
     /// <summary>
     /// Interface for $safeprojectgroupname$
     /// </summary>
-    public class GoogleClientImplementation : IGoogleClient
+    public class GoogleClientManager : IGoogleClientManager
     {
     }
 }

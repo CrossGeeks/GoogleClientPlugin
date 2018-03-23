@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Plugin.GoogleClient
 {
-    public interface IGoogleClient
+    public interface IGoogleClientManager
     {
     }
 }

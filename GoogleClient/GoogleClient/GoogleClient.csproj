@@ -19,21 +19,20 @@
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    
-    <!--TODO: Fill these in-->
-    <PackageLicenseUrl>LINK TO LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
-    <RepositoryUrl>LINK TO PROJECT</RepositoryUrl>
-    <PackageReleaseNotes>RELEASE NOTES</PackageReleaseNotes>
-    <PackageIconUrl>ICON URL</PackageIconUrl>
-    <PackageTags>xamarin, windows, ios, android, xamarin.forms, plugin, GoogleClient</PackageTags>
-    
-    <Title>GoogleClient Plugin for Xamarin and Windows</Title>
-    <Summary>Summary of nuget</Summary>
-    <Description>Plugin Description</Description>
 
-    <Owners>YOU</Owners>
-    <Authors>YOU</Authors>
+    <PackageLicenseUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/CrossGeeks/GoogleClientPlugin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CrossGeeks/GoogleClientPlugin</RepositoryUrl>
+    <PackageReleaseNotes>Google authentication handling added.</PackageReleaseNotes>
+    <PackageIconUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/art/icon.png?raw=true</PackageIconUrl>
+    <PackageTags>xamarin, ios, android, xamarin.forms, plugin, GoogleClient, authentication, google</PackageTags>
+
+    <Title>Google Client Plugin for Xamarin and Windows</Title>
+    <Summary>Google authentication handling across Xamarin.iOS and Xamarin.Android</Summary>
+    <Description>Google authentication handling across Xamarin.iOS and Xamarin.Android</Description>
+    
+    <Authors>Luis Pujols</Authors>
+    <Owners>CrossGeeks</Owners>
     <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
 
@@ -61,6 +60,10 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
     <Compile Include="Platforms\iOS\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Shared\GoogleUser.cs" />
   </ItemGroup>
 
   <!--
