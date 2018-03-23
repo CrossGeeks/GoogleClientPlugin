@@ -9,7 +9,7 @@ using GoogleUser = Plugin.GoogleClient.Shared.GoogleUser;
 namespace Plugin.GoogleClient
 {
     /// <summary>
-    /// Interface for $safeprojectgroupname$
+    /// Implementation for GoogleClient
     /// </summary>
     public class GoogleClientManager : NSObject, IGoogleClientManager, ISignInDelegate, ISignInUIDelegate
     {

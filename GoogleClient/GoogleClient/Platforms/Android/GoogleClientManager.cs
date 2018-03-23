@@ -16,7 +16,7 @@ using Debug = System.Diagnostics.Debug;
 namespace Plugin.GoogleClient
 {
     /// <summary>
-    /// Interface for Google Client
+    /// Implementation for GoogleClient
     /// </summary>
     public class GoogleClientManager : Object, IGoogleClientManager, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
     {
