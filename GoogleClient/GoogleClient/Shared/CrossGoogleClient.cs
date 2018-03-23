@@ -13,6 +13,8 @@ namespace Plugin.GoogleClient
         /// Gets if the plugin is supported on the current platform.
         /// </summary>
         public static bool IsSupported => implementation.Value == null ? false : true;
+        
+
 
         /// <summary>
         /// Current plugin implementation to use
