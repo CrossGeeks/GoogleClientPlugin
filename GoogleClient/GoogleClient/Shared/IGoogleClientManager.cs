@@ -14,7 +14,7 @@ namespace Plugin.GoogleClient
         Error
     }
 
-    class GoogleClientResultEventArgs<T> : EventArgs
+    public class GoogleClientResultEventArgs<T> : EventArgs
     {
         public T Data { get; set; }
         public GoogleActionStatus Status { get; set; }
@@ -28,7 +28,7 @@ namespace Plugin.GoogleClient
         }
     }
 
-    class GoogleResponse<T>
+    public class GoogleResponse<T>
     {
         public T Data { get; set; }
         public GoogleActionStatus Status { get; set; }
@@ -53,7 +53,7 @@ namespace Plugin.GoogleClient
     /// <summary>
     /// Interface for GoogleClientManager
     /// </summary>
-    interface IGoogleClientManager
+    public interface IGoogleClientManager
     {
         event EventHandler<GoogleClientResultEventArgs<GoogleUser>> OnLogin;
         event EventHandler OnLogout;
