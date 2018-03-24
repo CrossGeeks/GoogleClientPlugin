@@ -3,7 +3,7 @@
 Cross platform plugin for handling Google authentication.
 
 ### Setup
-* Available on Nuget: 
+* Available on Nuget: https://www.nuget.org/packages/Plugin.GoogleClient
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Plugin.GoogleClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.GoogleClient)
 * Install into your PCL project and Client projects.
 * Create your [Google Developer Platform](GoogleClient/docs/GoogleDeveloperConsoleSetup.md) application.
