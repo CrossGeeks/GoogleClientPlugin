@@ -6,7 +6,7 @@ Cross platform plugin for handling Google authentication.
 * Available on Nuget: https://www.nuget.org/packages/Plugin.GoogleClient
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Plugin.GoogleClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.GoogleClient)
 * Install into your PCL project and Client projects.
-* Create your [Google Developer Platform](GoogleClient/docs/GoogleDeveloperConsoleSetup.md) application.
+* Create your [Google Developer Platform](GoogleClient/docs/GoogleDeveloperPlatformSetup.md) application.
 * Follow the [Android](GoogleClient/docs/AndroidSetup.md) and [iOS](GoogleClient/docs/iOSSetup.md) guides
 * Check out [Getting Started](GoogleClient/docs/GettingStarted.md)
 
@@ -29,7 +29,7 @@ Call **CrossGoogleClient.Current** from any project or PCL to gain access to API
 
 Here you will find detailed documentation on setting up and using the Google Client Plugin for Xamarin
 
-* [Google Developer Setup](GoogleClient/docs/GoogleDeveloperConsoleSetup.md) 
+* [Google Developer Platform Setup](GoogleClient/docs/GoogleDeveloperPlatformSetup.md) 
 * [Android Setup](GoogleClient/docs/AndroidSetup.md)
 * [iOS Setup](GoogleClient/docs/iOSSetup.md)
 
