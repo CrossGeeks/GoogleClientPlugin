@@ -11,6 +11,7 @@ using Android.OS;
 using Plugin.GoogleClient.Shared;
 using Application = Android.App.Application;
 using Debug = System.Diagnostics.Debug;
+using Object = Java.Lang.Object;
 
 
 namespace Plugin.GoogleClient
@@ -90,8 +91,6 @@ namespace Plugin.GoogleClient
 
         public bool IsLoggedIn { get; }
 
-        public IntPtr Handle => throw new NotImplementedException();
-
         public void OnAuthCompleted(GoogleSignInResult result)
         {
             GoogleUser googleUser = null;
@@ -146,9 +145,5 @@ namespace Plugin.GoogleClient
             Debug.WriteLine(Tag + ": Connection to the client failed with error <" + result.ErrorCode + "> " + result.ErrorMessage);
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
