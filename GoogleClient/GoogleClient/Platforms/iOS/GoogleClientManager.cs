@@ -18,7 +18,7 @@ namespace Plugin.GoogleClient
         private UIViewController ViewController { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
-        public GoogleClientManager()
+        internal GoogleClientManager()
         {
             SignIn.SharedInstance.UIDelegate = this;
             SignIn.SharedInstance.Delegate = this;

@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
-using Android.Gms.Auth.Api;
 using Android.Gms.Common.Apis;
 using Android.OS;
 using Plugin.GoogleClient.Shared;
-using Application = Android.App.Application;
 using Debug = System.Diagnostics.Debug;
 using Object = Java.Lang.Object;
-
 
 namespace Plugin.GoogleClient
 {
@@ -22,13 +19,14 @@ namespace Plugin.GoogleClient
     public class GoogleClientManager : Object, IGoogleClientManager, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
     {
         // Class Debug Tag
-        private String Tag = typeof(GoogleClientManager).FullName;
+        static string Tag = typeof(GoogleClientManager).FullName;
+        static int AuthActivityID = Tag.GetHashCode();
         public static GoogleApiClient GoogleApiClient { get; set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
 
-        public GoogleClientManager()
+        internal GoogleClientManager()
         {
             GoogleSignInOptions googleSignInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
@@ -59,7 +57,7 @@ namespace Plugin.GoogleClient
         {
             _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
             Intent intent = Auth.GoogleSignInApi.GetSignInIntent(GoogleApiClient);
-            CurrentActivity.StartActivityForResult(intent, 1);
+            CurrentActivity?.StartActivityForResult(intent, AuthActivityID);
             GoogleApiClient.Connect();
 
             return await _loginTcs.Task;
@@ -91,42 +89,48 @@ namespace Plugin.GoogleClient
 
         public bool IsLoggedIn { get; }
 
-        public void OnAuthCompleted(GoogleSignInResult result)
+        public static void OnAuthCompleted(int requestCode, Result resultCode, Intent data)
         {
-            GoogleUser googleUser = null;
 
-            // Log the result of the authentication
-            Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
-
-            if (result.IsSuccess)
+            if (requestCode == AuthActivityID)
             {
-                GoogleSignInAccount userAccount = result.SignInAccount;
-                googleUser = new GoogleUser
-                {
-                    Name = userAccount.DisplayName,
-                    Email = userAccount.Email,
-                    Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
-                };
+                GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
 
-                var googleArgs =
-                    new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);
-
-                // Send the result to the receivers
-                _onLogin?.Invoke(this, googleArgs);
-                _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
-            }
-            else
-            {
-                var googleArgs =
-                    new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Canceled, result.Status.StatusMessage);
+                GoogleUser googleUser = null;
 
                 // Log the result of the authentication
-                Debug.WriteLine(Tag + ": User cancelled login operation");
+                Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
 
-                // Send the result to the receivers
-                _onLogin?.Invoke(this, googleArgs);
-                _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+                if (result.IsSuccess)
+                {
+                    GoogleSignInAccount userAccount = result.SignInAccount;
+                    googleUser = new GoogleUser
+                    {
+                        Name = userAccount.DisplayName,
+                        Email = userAccount.Email,
+                        Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
+                    };
+
+                    var googleArgs =
+                        new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);
+
+                    // Send the result to the receivers
+                    _onLogin?.Invoke(CrossGoogleClient.Current, googleArgs);
+                    _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+                }
+                else
+                {
+                    var googleArgs =
+                        new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Canceled, result.Status.StatusMessage);
+
+                    // Send the result to the receivers
+                    _onLogin?.Invoke(CrossGoogleClient.Current, googleArgs);
+                    _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+                }
+
             }
+     
+           
 
         }
 
