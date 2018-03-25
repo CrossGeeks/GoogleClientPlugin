@@ -1,1 +1,0 @@
-### Google Client Sample App
