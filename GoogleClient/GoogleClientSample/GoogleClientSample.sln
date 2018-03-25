@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleClientSample.UWP", "G
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GoogleClientSample", "GoogleClientSample\GoogleClientSample\GoogleClientSample.shproj", "{EE580976-57BD-4A21-8433-6938427088F3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3D40AEB-0B24-4A19-9ECB-55B7AE781376}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GoogleClientSample\GoogleClientSample\GoogleClientSample.projitems*{5474198a-d9d6-4887-a919-9a2f6f2928c1}*SharedItemsImports = 4
