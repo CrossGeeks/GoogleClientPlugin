@@ -49,7 +49,7 @@ We will also need to create a configuration file for iOS, which you can get [her
 
 
 
-**Note:** To be able to run the iOS project on the simulator, you will have to enable Keychain sharin on the **Entitlements.plist**:
+**Note:** To be able to run the iOS project on the simulator, you will have to enable Keychain sharing on the **Entitlements.plist**:
 
 
 
