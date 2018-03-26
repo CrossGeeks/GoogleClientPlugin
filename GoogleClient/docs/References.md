@@ -1,0 +1,15 @@
+# References
+-https://montemagno.com/new-plugin-for-xamarin-multi-target-templates-for-visual-studio-2017/
+-https://causerexception.com/2017/12/03/google-native-login-with-xamarin-forms/
+-https://console.developers.google.com/cloud-resource-manager
+-https://developers.google.com/identity/sign-in/android/sign-in
+-https://github.com/xamarin/google-apis
+-https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html
+-https://components.xamarin.com/view/googleiossignin
+-https://developers.google.com/identity/sign-in/ios/start
+-https://stackoverflow.com/questions/39487368/xamarin-auth-store-keychain-not-working-after-ios10-upgrade/39576798#39576798
+-https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html
+-https://developer.xamarin.com/samples/monodroid/google-services/SigninQuickstart/
+-https://developer.xamarin.com/guides/android/platform_features/maps_and_location/maps/obtaining_a_google_maps_api_key/
+-http://evgenii.com/blog/sharing-keychain-in-ios/ 
+-https://msdn.microsoft.com/en-us/library/018hxwa8(v=vs.110).aspx
