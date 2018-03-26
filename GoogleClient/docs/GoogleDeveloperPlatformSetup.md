@@ -58,4 +58,4 @@ Key chain sharing on iOS, need entitlements and for that we need a valid provisi
 
 After you have completed the integration of the configurations file to your project you're ready for the final steps in the [Android Setup](AndroidSetup.md) and [iOS Setup](iOSSetup.md) guides.
 
-<= Back to [Table of Contents](../README.md)
+<= Back to [Table of Contents](../../README.md)
