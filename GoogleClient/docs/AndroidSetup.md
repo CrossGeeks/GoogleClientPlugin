@@ -14,9 +14,18 @@
 
 ## MainActivity.cs
 
-- On the OnCreate method just after calling base.OnCreate:
+- On the **OnCreate** method just after calling base.OnCreate:
 ```cs
      GoogleClientManager.Initialize(this);
+```
+
+- Override the **OnActivityResult** method:
+```cs
+protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+{
+    base.OnActivityResult(requestCode, resultCode, data);
+    GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
+}
 ```
 
 ## AndroidManifest.xml
