@@ -8,7 +8,7 @@
 ## AppDelegate.cs
 - On the FinishedLaunching method just after calling global::Xamarin.Forms.Forms.Init():
 ```cs
-     CrossGoogleClient.Initialize();
+     GoogleClientManager.Initialize();
 ```
 
 ## Override OpenUrl method
@@ -16,7 +16,7 @@ Override the OpenUrl method from AppDelegate class:
 ```cs
 public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
 {
-    return CrossGoogleClient.OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options);
+    return GoogleClientManager.OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options);
 }
 ```
 
