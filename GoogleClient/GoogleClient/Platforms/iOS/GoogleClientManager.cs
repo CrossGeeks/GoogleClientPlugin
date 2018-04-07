@@ -24,6 +24,12 @@ namespace Plugin.GoogleClient
             SignIn.SharedInstance.Delegate = this;
         }
 
+        public static void Initialize()
+        {
+            var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
+            SignIn.SharedInstance.ClientID = googleServiceDictionary["CLIENT_ID"].ToString();
+        }
+
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
         public event EventHandler<GoogleClientResultEventArgs<GoogleUser>> OnLogin
         {
@@ -112,6 +118,12 @@ namespace Plugin.GoogleClient
                 _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
             }
 
+        }
+
+        public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            var openUrlOptions = new UIApplicationOpenUrlOptions(options);
+            return SignIn.SharedInstance.HandleUrl(url, openUrlOptions.SourceApplication, openUrlOptions.Annotation);
         }
 
         [Export("signIn:didDisconnectWithUser:with:Error:")]
