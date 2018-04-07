@@ -49,7 +49,7 @@ We will also need to create a configuration file for iOS, which you can get [her
 
 
 
-**Note:** To be able to run the iOS project on the simulator, you will have to enable Keychain sharin on the **Entitlements.plist**:
+**Note:** To be able to run the iOS project on the simulator, you will have to enable Keychain sharing on the **Entitlements.plist**:
 
 
 
@@ -58,4 +58,4 @@ Key chain sharing on iOS, need entitlements and for that we need a valid provisi
 
 After you have completed the integration of the configurations file to your project you're ready for the final steps in the [Android Setup](AndroidSetup.md) and [iOS Setup](iOSSetup.md) guides.
 
-<= Back to [Table of Contents](../README.md)
+<= Back to [Table of Contents](../../README.md)
