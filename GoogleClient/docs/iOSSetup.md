@@ -8,8 +8,7 @@
 ## AppDelegate.cs
 - On the FinishedLaunching method just after calling global::Xamarin.Forms.Forms.Init():
 ```cs
-     var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
-     SignIn.SharedInstance.ClientID = googleServiceDictionary["CLIENT_ID"].ToString();
+     CrossGoogleClient.Initialize();
 ```
 
 ## Override OpenUrl method
@@ -17,8 +16,7 @@ Override the OpenUrl method from AppDelegate class:
 ```cs
 public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
 {
-    var openUrlOptions = newUIApplicationOpenUrlOptions(options);
-    return SignIn.SharedInstance.HandleUrl(url, openUrlOptions.SourceApplication, openUrlOptions.Annotation);
+    return CrossGoogleClient.OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options);
 }
 ```
 
