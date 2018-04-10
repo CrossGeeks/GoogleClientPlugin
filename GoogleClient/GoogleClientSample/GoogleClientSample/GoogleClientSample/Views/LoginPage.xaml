@@ -1,12 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:GoogleClientSample.Views.Converter"
              x:Class="GoogleClientSample.Views.LoginPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <Label Text="Welcome to Google Auth App!"
+                   HorizontalOptions="CenterAndExpand" VerticalOptions="Start"
+                   FontSize="20"
+                   TextColor="#212121"
+                   Margin="0,32,0,0"/>
+
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                <Image HorizontalOptions="Center" VerticalOptions="Center"
+                       WidthRequest="120" HeightRequest="120"
+                       Margin="24"
+                       Source="googlelogo.png"
+                       IsVisible="{Binding IsLoggedIn, Converter={StaticResource InvertBooleanConverter}}"/>
+
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand"
+                             VerticalOptions="CenterAndExpand"
+                             IsVisible="{Binding IsLoggedIn}">
+                    <Image WidthRequest="120"
+                           HeightRequest="120"
+                           Source="{Binding user.Picture}"
+                           IsVisible="{Binding IsLoggedIn}"/>
+                    <StackLayout Orientation="Vertical"
+                                 Spacing="8"
+                                 IsVisible="{Binding IsLoggedIn}"
+                                 Margin="16,0,0,0">
+                        <Label Text="Name:"
+                               TextColor="#212121"
+                               FontSize="16"/>
+                        <Label Text="{Binding user.Name}"
+                               Margin="16,0,0,0"/>
+                        <Label Text="Email:"
+                               TextColor="#212121"
+                               FontSize="16"/>
+                        <Label Text="{Binding user.Email}"
+                               Margin="16,0,0,0"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <Button Text="Login"
+                    VerticalOptions="EndAndExpand"
+                    IsVisible="{Binding IsLoggedIn, Converter={StaticResource InvertBooleanConverter}}"
+                    Command="{Binding LoginCommand}"
+                    BackgroundColor="Accent"/>
+
+            <Button Text="Logout"
+                    VerticalOptions="EndAndExpand"
+                    IsVisible="{Binding IsLoggedIn}"
+                    Command="{Binding LogoutCommand}"
+                    BackgroundColor="Accent"/>
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

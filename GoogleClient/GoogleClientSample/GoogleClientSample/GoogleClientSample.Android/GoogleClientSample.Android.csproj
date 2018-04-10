@@ -84,6 +84,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <AndroidResource Include="Resources\drawable\googlelogo.png" />
+    <AndroidResource Include="Resources\drawable\ic_launcher_crossgeeks.png" />
+    <AndroidResource Include="Resources\drawable\ic_launcher_crossgeeks_drop_shadow.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher_crossgeeks.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher_crossgeeks_drop_shadow.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher_crossgeeks.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher_crossgeeks_drop_shadow.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher_crossgeeks.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher_crossgeeks_drop_shadow.png" />
   </ItemGroup>
   <Import Project="..\GoogleClientSample\GoogleClientSample.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

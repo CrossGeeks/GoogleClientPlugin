@@ -16,6 +16,8 @@ namespace GoogleClientSample.Views
 		{
 			InitializeComponent ();
 		    BindingContext = new LoginPageViewModel();
-		}
+
+		    this.Title = "Home";
+        }
 	}
 }
