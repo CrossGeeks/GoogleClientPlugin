@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Plugin.GoogleClient;
 using UIKit;
 
 namespace GoogleClientSample.iOS
@@ -23,9 +24,15 @@ namespace GoogleClientSample.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            GoogleClientManager.Initialize();
             LoadApplication(new App());
-
             return base.FinishedLaunching(app, options);
+        }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            base.OpenUrl(app, url, options);
+            return GoogleClientManager.OnOpenUrl(app, url, options);
         }
     }
 }

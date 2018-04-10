@@ -23,9 +23,9 @@
 	<key>MinimumOSVersion</key>
 	<string>10.3</string>
 	<key>CFBundleDisplayName</key>
-	<string>GoogleClientSample</string>
+	<string>Google Client Sample</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.GoogleClientSample</string>
+	<string>com.crossgeeks.googleclientsample</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
@@ -50,5 +50,16 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>GoogleClientSample</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Google Services</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.505504259657-39nbhjgs6d14gsffochmqr625n6j19ik</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
