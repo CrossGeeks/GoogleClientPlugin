@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using GoogleClientSample.Models;
 using Plugin.GoogleClient;
 using Plugin.GoogleClient.Shared;
 using Xamarin.Forms;
@@ -11,7 +12,7 @@ namespace GoogleClientSample.ViewModels
 {
     public class LoginPageViewModel : INotifyPropertyChanged
     {
-        public GoogleUser User { get; set; }
+        public UserProfile User { get; set; } = new UserProfile();
         public string Name
         {
             get => User.Name;
@@ -56,7 +57,12 @@ namespace GoogleClientSample.ViewModels
         {
             if (loginEventArgs.Data != null)
             {
-                User = loginEventArgs.Data;
+                GoogleUser googleUser = loginEventArgs.Data;
+
+                User.Name = googleUser.Name;
+                User.Email = googleUser.Email;
+                User.Picture = googleUser.Picture;
+                
 
                 // Log the current User email
                 Debug.WriteLine(User.Email);
