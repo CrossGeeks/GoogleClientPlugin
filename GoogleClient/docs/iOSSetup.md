@@ -16,7 +16,7 @@ Override the OpenUrl method from AppDelegate class:
 ```cs
 public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
 {
-    return GoogleClientManager.OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options);
+    return GoogleClientManager.OnOpenUrl(app, url, options);
 }
 ```
 
