@@ -37,6 +37,9 @@ Here you will find detailed documentation on setting up and using the Google Cli
 * [Android Setup](GoogleClient/docs/AndroidSetup.md)
 * [iOS Setup](GoogleClient/docs/iOSSetup.md)
 
+### Google Client Sample Application
+* [Google Client Sample App](GoogleClient/GoogleClientSample)
+
 ### References
 * [Documentation References](GoogleClient/docs/References.md)
 
