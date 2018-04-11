@@ -4,7 +4,6 @@ Sample project to demostrate how to use the Google Client plugin, if you wish to
 * Clone the Repo
 * Open the GoogleClientSample Project in your Visual Studio IDE.
 * Create your [Google Firebase Console Platform](../docs/GoogleFirebaseConsoleSetup.md)  application.
-* Follow the [Android](../docs/AndroidSetup.md) and [iOS](../docs/iOSSetup.md) guides.
 * Deploy the App to your device the end result should look like this:
 
 <p align="center">
