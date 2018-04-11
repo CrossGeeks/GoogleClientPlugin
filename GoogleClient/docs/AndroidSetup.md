@@ -10,7 +10,7 @@
 1. **Visual Studio 2017 Tools > Android > Android SDK Manager.**
 2. Scroll to the bottom of the package list and select **Extras > Google Repository.** The page is downloaded to your computer and installed in your SDK environment where the android SDK on you're Visual Studio is Installed.
 
-3. Complete the [Google Developer Platform Setup](GoogleDeveloperPlatformSetup.md) to include the required configuration file to you're projects.
+3. Complete the [Google Firebase Console Setup](GoogleFirebaseConsoleSetup.md) to include the required configuration file to your projects.
 
 ## MainActivity.cs
 

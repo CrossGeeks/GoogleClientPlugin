@@ -3,7 +3,7 @@
 * Install Plugin.GoogleClient package into your Android project.
 
 ## Prerequisites
-1. Complete the [Google Developer Platform Setup](GoogleDeveloperPlatformSetup.md) to include the required configuration file to you're projects.
+1. Complete the [Google Firebase Console Setup](GoogleFirebaseConsoleSetup.md) to include the required configuration file to you're projects.
 
 ## AppDelegate.cs
 - On the FinishedLaunching method just after calling global::Xamarin.Forms.Forms.Init():

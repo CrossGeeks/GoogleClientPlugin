@@ -3,7 +3,7 @@
 If developing an application that supports iOS and Android, make sure you installed the NuGet package into your PCL project and Client projects.
 
 ### Setup
-* [Google Developer Platform Setup](GoogleDeveloperPlatformSetup.md)
+* [Google Developer Platform Setup](GoogleFirebaseConsoleSetup.md)
 * [Android Setup](AndroidSetup.md)
 * [iOS Setup](iOSSetup.md)
 
