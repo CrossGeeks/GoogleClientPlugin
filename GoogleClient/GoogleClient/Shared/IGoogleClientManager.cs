@@ -57,6 +57,7 @@ namespace Plugin.GoogleClient
     {
         event EventHandler<GoogleClientResultEventArgs<GoogleUser>> OnLogin;
         event EventHandler OnLogout;
+		event EventHandler<GoogleClientErrorEventArgs> OnError;
         Task<GoogleResponse<GoogleUser>> LoginAsync();
         void Logout();
         bool IsLoggedIn { get; }

@@ -38,7 +38,6 @@
 
   <ItemGroup>
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.0" PrivateAssets="All" />
-    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.1.1" />
     <Compile Include="Shared\**\*.cs" />
   </ItemGroup>
 
@@ -68,8 +67,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid80'">
-    <PackageReference Include="Xamarin.GooglePlayServices.Auth">
-      <Version>60.1142.1</Version>
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1">
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'Xamarin.iOS10'">
+    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.1.1">
     </PackageReference>
   </ItemGroup>
 

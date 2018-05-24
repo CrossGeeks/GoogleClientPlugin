@@ -80,6 +80,19 @@ namespace Plugin.GoogleClient
 
         public bool IsLoggedIn { get; }
 
+		static EventHandler<GoogleClientErrorEventArgs> _onError;
+        public event EventHandler<GoogleClientErrorEventArgs> OnError
+        {
+            add => _onError += value;
+            remove => _onError -= value;
+        }
+
+        protected virtual void OnGoogleClientError(GoogleClientErrorEventArgs e)
+        {
+            _onError?.Invoke(this, e);
+        }
+
+
         public void DidSignIn(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
         {
 
