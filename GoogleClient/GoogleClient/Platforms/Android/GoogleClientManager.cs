@@ -89,6 +89,21 @@ namespace Plugin.GoogleClient
 
         public bool IsLoggedIn { get; }
 
+
+		static EventHandler<GoogleClientErrorEventArgs> _onError;
+        public event EventHandler<GoogleClientErrorEventArgs> OnError
+        {
+            add => _onError += value;
+            remove => _onError -= value;
+        }
+
+
+
+        protected virtual void OnGoogleClientError(GoogleClientErrorEventArgs e)
+        {
+            _onError?.Invoke(this, e);
+        }
+
         public static void OnAuthCompleted(int requestCode, Result resultCode, Intent data)
         {
 
@@ -120,12 +135,43 @@ namespace Plugin.GoogleClient
                 }
                 else
                 {
-                    var googleArgs =
-                        new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Canceled, result.Status.StatusMessage);
+					GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
 
-                    // Send the result to the receivers
-                    _onLogin?.Invoke(CrossGoogleClient.Current, googleArgs);
-                    _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+                    switch (error.Code)
+                    {
+                        case -1:
+                            errorEventArgs.Error = GoogleClientErrorType.SignInUnknownError;
+                            errorEventArgs.Message = GoogleClientBaseException.SignInUnknownErrorMessage;
+                            _loginTcs.TrySetException(new GoogleClientSignInUnknownErrorException());
+                            break;
+                        case -2: 
+                            errorEventArgs.Error = GoogleClientErrorType.SignInKeychainError;
+                            errorEventArgs.Message = GoogleClientBaseException.SignInKeychainErrorMessage;
+                            _loginTcs.TrySetException(new GoogleClientSignInKeychainErrorException());
+                            break;
+                        case -3:
+                            errorEventArgs.Error = GoogleClientErrorType.NoSignInHandlersInstalledError;
+                            errorEventArgs.Message = GoogleClientBaseException.SignInNoSignInHandlersInstalledErrorMessage;
+                            _loginTcs.TrySetException(new GoogleClientSignInNoSignInHandlersInstalledErrorException());
+                            break;
+                        case -4:
+                            errorEventArgs.Error = GoogleClientErrorType.SignInHasNoAuthInKeychainError;
+                            errorEventArgs.Message = GoogleClientBaseException.SignInUnknownErrorMessage;
+                            _loginTcs.TrySetException(new GoogleClientSignInHasNoAuthInKeychainErrorException());
+                            break;
+                        case -5:
+                            errorEventArgs.Error = GoogleClientErrorType.SignInCanceledError;
+                            errorEventArgs.Message = GoogleClientBaseException.SignInCanceledErrorMessage;
+                            _loginTcs.TrySetException(new GoogleClientSignInCanceledErrorException());
+                            break;
+                        default:
+                            errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
+                            errorEventArgs.Message = GoogleClientBaseException.SignInDefaultErrorMessage;
+                            _loginTcs.TrySetException(new GoogleClientBaseException());
+                            break;
+                    }
+
+                    OnGoogleClientError(errorEventArgs);
                 }
 
             }
