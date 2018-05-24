@@ -6,6 +6,21 @@ using Plugin.GoogleClient.Shared;
 
 namespace Plugin.GoogleClient
 {
+	public enum GoogleClientErrorType {
+        SignInUnknownError,
+        SignInKeychainError,
+        NoSignInHandlersInstalledError,
+        SignInHasNoAuthInKeychainError,
+        SignInCanceledError,
+        SignInDefaultError,
+    }
+
+    public class GoogleClientErrorEventArgs : EventArgs
+    {
+        public GoogleClientErrorType Error { get; set; }
+        public string Message { get; set; }
+    }
+
     public enum GoogleActionStatus
     {
         Canceled,
@@ -49,17 +64,16 @@ namespace Plugin.GoogleClient
         }
     }
 
-
-    /// <summary>
+	/// <summary>
     /// Interface for GoogleClientManager
     /// </summary>
     public interface IGoogleClientManager
     {
-        event EventHandler<GoogleClientResultEventArgs<GoogleUser>> OnLogin;
+        event EventHandler<GoogleClientResultEventArgs<GoogleUser>>  OnLogin;
         event EventHandler OnLogout;
-		event EventHandler<GoogleClientErrorEventArgs> OnError;
+        event EventHandler<GoogleClientErrorEventArgs> OnError;
         Task<GoogleResponse<GoogleUser>> LoginAsync();
         void Logout();
-        bool IsLoggedIn { get; }
     }
+    
 }
