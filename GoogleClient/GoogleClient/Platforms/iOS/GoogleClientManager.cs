@@ -104,7 +104,7 @@ namespace Plugin.GoogleClient
             _onError?.Invoke(this, e);
         }
 
-        public void DidSignIn(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
+		public void DidSignIn(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
         {
             GoogleUser googleUser = null;
 
@@ -168,20 +168,10 @@ namespace Plugin.GoogleClient
                 }
 
                 OnGoogleClientError(errorEventArgs);
-
-                var googleArgs =
-                    new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Error, error?.LocalizedDescription);
-
-                // Log the result of the authentication
-                Debug.WriteLine(Tag + ": authentication failed with error " + error?.LocalizedDescription);
-
-                // Send the result to the receivers
-                _onLogin?.Invoke(this, googleArgs);
-                _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
             }
+		}
 
-        }
-
+        
         [Export("signIn:didDisconnectWithUser:withError:")]
         public void DidDisconnect(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
         {
