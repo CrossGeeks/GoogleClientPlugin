@@ -175,8 +175,6 @@ namespace Plugin.GoogleClient
                 }
 
             }
-     
-           
 
         }
 
