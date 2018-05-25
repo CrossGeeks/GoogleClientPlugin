@@ -32,7 +32,7 @@
     <Description>Google authentication handling across Xamarin.iOS and Xamarin.Android</Description>
     
     <Authors>Luis Pujols</Authors>
-    <Owners>CrossGeeks</Owners>
+    <Owners>pujolsluis,crossgeeks</Owners>
     <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
 
