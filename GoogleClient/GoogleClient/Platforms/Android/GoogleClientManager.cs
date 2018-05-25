@@ -135,6 +135,8 @@ namespace Plugin.GoogleClient
                 {
 					GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
 
+                    
+
                     switch (result.Status.StatusCode)
                     {
                         case GoogleSignInStatusCodes.InternalError:
@@ -164,7 +166,7 @@ namespace Plugin.GoogleClient
                             break;
                         default:
                             errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
-                            errorEventArgs.Message = GoogleClientBaseException.SignInDefaultErrorMessage;
+							errorEventArgs.Message = result.Status.StatusMessage;
                             _loginTcs.TrySetException(new GoogleClientBaseException());
 							break;
 					}
