@@ -46,10 +46,17 @@ namespace GoogleClientSample.ViewModels
             IsLoggedIn = false;
         }
 
-        public void LoginAsync()
+        public async void LoginAsync()
         {
             _googleClientManager.OnLogin += OnLoginCompleted;
-            _googleClientManager.LoginAsync();
+			try 
+			{
+				await _googleClientManager.LoginAsync();
+			}
+			catch (GoogleClientBaseException e)
+			{
+				App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+			}
         }
 
 

@@ -15,8 +15,8 @@ namespace Plugin.GoogleClient.Shared
         public static string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
 
 
-        public GoogleClientBaseException() : base() { }
-        public GoogleClientBaseException(string message) : base(message) { }
+		public GoogleClientBaseException() : base(SignInDefaultErrorMessage) { }
+		public GoogleClientBaseException(string message) : base(message) { }
         public GoogleClientBaseException(string message, System.Exception inner) : base(message, inner) { }
     }
 

@@ -47,9 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Plugin.GoogleClient">
-      <Version>0.5.0-beta</Version>
-    </PackageReference>
     <PackageReference Include="PropertyChanged.Fody">
       <Version>2.5.2</Version>
     </PackageReference>
@@ -59,6 +56,9 @@
     <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2" />
     <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="27.0.2" />
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2" />
+    <PackageReference Include="Plugin.GoogleClient">
+      <Version>1.0.0-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
