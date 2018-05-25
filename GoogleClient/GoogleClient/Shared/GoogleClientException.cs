@@ -3,16 +3,16 @@ namespace Plugin.GoogleClient.Shared
 {
 	public class GoogleClientBaseException : Exception
     {
-        public static string SignInDefaultErrorMessage = "The Google Sign In could not complete it's process correctly.";
-        public static string SignInUnknownErrorMessage = "An unknown error has occured.";
-        public static string SignInKeychainErrorMessage = "There was a problem reading or writing to the application keychain.";
-        public static string SignInNoSignInHandlersInstalledErrorMessage = "No appropriate applications are installed on the user's device which can handle sign-in.";
-        public static string SignInHasNoAuthInKeychainErrorMessage = "There are no auth tokens in the keychain.";
-        public static string SignInCanceledErrorMessage = "The Sign In request was cancelled by the user";
-        public static string SignInApiNotConnectedErrorMessage = "API failed to connect.";
-        public static string SignInInvalidAccountErrorMessage = "Attempted to connect to the service with an invalid account name specified.";
-        public static string SignInNetworkErrorMessage = "A network error occurred. Retrying should resolve the problem.";
-        public static string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
+        public const string SignInDefaultErrorMessage = "The Google Sign In could not complete it's process correctly.";
+        public const string SignInUnknownErrorMessage = "An unknown error has occured.";
+        public const string SignInKeychainErrorMessage = "There was a problem reading or writing to the application keychain.";
+        public const string SignInNoSignInHandlersInstalledErrorMessage = "No appropriate applications are installed on the user's device which can handle sign-in.";
+        public const string SignInHasNoAuthInKeychainErrorMessage = "There are no auth tokens in the keychain.";
+        public const string SignInCanceledErrorMessage = "The Sign In request was cancelled by the user";
+        public const string SignInApiNotConnectedErrorMessage = "API failed to connect.";
+        public const string SignInInvalidAccountErrorMessage = "Attempted to connect to the service with an invalid account name specified.";
+        public const string SignInNetworkErrorMessage = "A network error occurred. Retrying should resolve the problem.";
+        public const string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
 
 
 		public GoogleClientBaseException() : base(SignInDefaultErrorMessage) { }
