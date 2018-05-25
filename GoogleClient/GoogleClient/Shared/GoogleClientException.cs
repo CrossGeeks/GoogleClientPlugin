@@ -109,7 +109,7 @@ namespace Plugin.GoogleClient.Shared
 	// Indicates the sign in attempt didn't succeed with the current account.
 	public class GoogleClientSignInFailedErrorException : GoogleClientBaseException
     {
-		public GoogleClientSignInFailedErrorException() : base(GoogleClientSignInFailedErrorException) { }
+		public GoogleClientSignInFailedErrorException() : base(SignInFailedErrorMessage) { }
 		public GoogleClientSignInFailedErrorException(string message) : base(message) { }
 		public GoogleClientSignInFailedErrorException(string message, System.Exception inner) : base(message, inner) { }
     }

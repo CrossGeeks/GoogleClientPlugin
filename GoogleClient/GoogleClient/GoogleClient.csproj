@@ -27,7 +27,7 @@
     <PackageIconUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/art/icon.png?raw=true</PackageIconUrl>
     <PackageTags>xamarin, ios, android, xamarin.forms, plugin, GoogleClient, authentication, google</PackageTags>
 
-    <Title>Google Client Plugin for Xamarin and Windows</Title>
+    <Title>Google Client Plugin for Xamarin</Title>
     <Summary>Google authentication handling across Xamarin.iOS and Xamarin.Android</Summary>
     <Description>Google authentication handling across Xamarin.iOS and Xamarin.Android</Description>
     
