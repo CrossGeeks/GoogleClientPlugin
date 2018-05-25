@@ -166,6 +166,7 @@ namespace Plugin.GoogleClient
                             errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
                             errorEventArgs.Message = GoogleClientBaseException.SignInDefaultErrorMessage;
                             _loginTcs.TrySetException(new GoogleClientBaseException());
+							break;
 					}
 
 					_onError?.Invoke(CrossGoogleClient.Current, errorEventArgs);
