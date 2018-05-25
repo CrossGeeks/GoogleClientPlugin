@@ -167,7 +167,7 @@ namespace Plugin.GoogleClient
                         default:
                             errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
 							errorEventArgs.Message = result.Status.StatusMessage;
-                            _loginTcs.TrySetException(new GoogleClientBaseException());
+							_loginTcs.TrySetException(new GoogleClientBaseException(result.Status.StatusMessage));
 							break;
 					}
 
