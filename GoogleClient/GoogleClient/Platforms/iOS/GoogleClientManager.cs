@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundation;
 using Google.SignIn;
+using Plugin.GoogleClient.Shared;
 using UIKit;
 using GoogleUser = Plugin.GoogleClient.Shared.GoogleUser;
 
