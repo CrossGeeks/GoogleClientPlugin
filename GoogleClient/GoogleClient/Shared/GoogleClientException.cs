@@ -9,6 +9,11 @@ namespace Plugin.GoogleClient.Shared
         public static string SignInNoSignInHandlersInstalledErrorMessage = "No appropriate applications are installed on the user's device which can handle sign-in.";
         public static string SignInHasNoAuthInKeychainErrorMessage = "There are no auth tokens in the keychain.";
         public static string SignInCanceledErrorMessage = "The Sign In request was cancelled by the user";
+        public static string SignInApiNotConnectedErrorMessage = "API failed to connect.";
+        public static string SignInInvalidAccountErrorMessage = "Attempted to connect to the service with an invalid account name specified.";
+        public static string SignInNetworkErrorMessage = "A network error occurred. Retrying should resolve the problem.";
+        public static string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
+
 
         public GoogleClientBaseException() : base() { }
         public GoogleClientBaseException(string message) : base(message) { }
@@ -59,4 +64,35 @@ namespace Plugin.GoogleClient.Shared
         public GoogleClientSignInCanceledErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 
+    // Indicates the user canceled the sign in request.
+    public class GoogleClientSignInApiNotConnectedErrorException : GoogleClientBaseException
+    {
+        public GoogleClientSignInApiNotConnectedErrorException() : base(SignInApiNotConnectedErrorMessage) { }
+        public GoogleClientSignInApiNotConnectedErrorException(string message) : base(message) { }
+        public GoogleClientSignInApiNotConnectedErrorException(string message, System.Exception inner) : base(message, inner) { }
+    }
+
+    // Indicates the user canceled the sign in request.
+    public class GoogleClientSignInInvalidAccountErrorException : GoogleClientBaseException
+    {
+        public GoogleClientSignInInvalidAccountErrorException() : base(SignInInvalidAccountErrorMessage) { }
+        public GoogleClientSignInInvalidAccountErrorException(string message) : base(message) { }
+        public GoogleClientSignInInvalidAccountErrorException(string message, System.Exception inner) : base(message, inner) { }
+    }
+
+    // Indicates the user canceled the sign in request.
+    public class GoogleClientSignInNetworkErrorException : GoogleClientBaseException
+    {
+        public GoogleClientSignInNetworkErrorException() : base(SignInNetworkErrorMessage) { }
+        public GoogleClientSignInNetworkErrorException(string message) : base(message) { }
+        public GoogleClientSignInNetworkErrorException(string message, System.Exception inner) : base(message, inner) { }
+    }
+
+    // Indicates the user canceled the sign in request.
+    public class GoogleClientSignInInternalErrorException : GoogleClientBaseException
+    {
+        public GoogleClientSignInInternalErrorException() : base(SignInInternalErrorMessage) { }
+        public GoogleClientSignInInternalErrorException(string message) : base(message) { }
+        public GoogleClientSignInInternalErrorException(string message, System.Exception inner) : base(message, inner) { }
+    }
 }

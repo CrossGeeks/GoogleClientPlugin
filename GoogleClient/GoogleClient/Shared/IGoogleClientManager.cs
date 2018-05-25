@@ -13,8 +13,11 @@ namespace Plugin.GoogleClient
         SignInHasNoAuthInKeychainError,
         SignInCanceledError,
         SignInDefaultError,
+        SignInApiNotConnectedError,
+        SignInInvalidAccountError,
+        SignInNetworkError,
+        SignInInternalError
     }
-
     public class GoogleClientErrorEventArgs : EventArgs
     {
         public GoogleClientErrorType Error { get; set; }
