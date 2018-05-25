@@ -16,7 +16,9 @@ namespace Plugin.GoogleClient
         SignInApiNotConnectedError,
         SignInInvalidAccountError,
         SignInNetworkError,
-        SignInInternalError
+        SignInInternalError,
+		SignInRequiredError,
+		SignInFailedError
     }
     public class GoogleClientErrorEventArgs : EventArgs
     {

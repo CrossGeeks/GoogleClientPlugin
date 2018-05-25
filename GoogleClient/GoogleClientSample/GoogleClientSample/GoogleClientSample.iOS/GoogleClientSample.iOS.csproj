@@ -128,7 +128,7 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.354232-pre3" />
     <PackageReference Include="Plugin.GoogleClient">
-      <Version>1.0.0-beta</Version>
+      <Version>1.0.2-beta</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

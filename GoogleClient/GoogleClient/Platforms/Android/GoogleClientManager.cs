@@ -159,7 +159,17 @@ namespace Plugin.GoogleClient
                             errorEventArgs.Message = GoogleClientBaseException.SignInInvalidAccountErrorMessage;
                             _loginTcs.TrySetException(new GoogleClientSignInInvalidAccountErrorException());
                             break;
-                        case GoogleSignInStatusCodes.Canceled:
+						case GoogleSignInStatusCodes.SignInRequired:
+							errorEventArgs.Error = GoogleClientErrorType.SignInRequiredError;
+							errorEventArgs.Message = GoogleClientBaseException.SignInRequiredErrorMessage;
+							_loginTcs.TrySetException(new GoogleClientSignInRequiredErrorErrorException());
+                            break;
+						case GoogleSignInStatusCodes.SignInFailed:
+							errorEventArgs.Error = GoogleClientErrorType.SignInFailedError;
+							errorEventArgs.Message = GoogleClientBaseException.SignInFailedErrorMessage;
+							_loginTcs.TrySetException(new GoogleClientSignInFailedErrorException());
+                            break;
+						case GoogleSignInStatusCodes.SignInCancelled:
                             errorEventArgs.Error = GoogleClientErrorType.SignInCanceledError;
                             errorEventArgs.Message = GoogleClientBaseException.SignInCanceledErrorMessage;
                             _loginTcs.TrySetException(new GoogleClientSignInCanceledErrorException());

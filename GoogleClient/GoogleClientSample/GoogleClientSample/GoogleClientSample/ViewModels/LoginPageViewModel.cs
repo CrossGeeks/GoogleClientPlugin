@@ -53,10 +53,27 @@ namespace GoogleClientSample.ViewModels
 			{
 				await _googleClientManager.LoginAsync();
 			}
-			catch (GoogleClientBaseException e)
+			catch (GoogleClientSignInNetworkErrorException e)
 			{
-				App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+				await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
 			}
+			catch (GoogleClientSignInCanceledErrorException e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+            }
+			catch (GoogleClientSignInInvalidAccountErrorException e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+            }
+			catch (GoogleClientSignInInternalErrorException e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+            }
+			catch (GoogleClientBaseException e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+            }
+
         }
 
 

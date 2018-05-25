@@ -13,6 +13,8 @@ namespace Plugin.GoogleClient.Shared
         public const string SignInInvalidAccountErrorMessage = "Attempted to connect to the service with an invalid account name specified.";
         public const string SignInNetworkErrorMessage = "A network error occurred. Retrying should resolve the problem.";
         public const string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
+		public const string SignInRequiredErrorMessage = "The client attempted to connect to the service but the user is not signed in.";
+		public const string SignInFailedErrorMessage = "The sign in attempt didn't succeed with the current account.";
 
 
 		public GoogleClientBaseException() : base(SignInDefaultErrorMessage) { }
@@ -64,7 +66,7 @@ namespace Plugin.GoogleClient.Shared
         public GoogleClientSignInCanceledErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 
-    // Indicates the user canceled the sign in request.
+	// Indicates the client attempted to call a method from an API that failed to connect.
     public class GoogleClientSignInApiNotConnectedErrorException : GoogleClientBaseException
     {
         public GoogleClientSignInApiNotConnectedErrorException() : base(SignInApiNotConnectedErrorMessage) { }
@@ -72,7 +74,7 @@ namespace Plugin.GoogleClient.Shared
         public GoogleClientSignInApiNotConnectedErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 
-    // Indicates the user canceled the sign in request.
+	// Indicates The client attempted to connect to the service with an invalid account name specified.
     public class GoogleClientSignInInvalidAccountErrorException : GoogleClientBaseException
     {
         public GoogleClientSignInInvalidAccountErrorException() : base(SignInInvalidAccountErrorMessage) { }
@@ -80,7 +82,7 @@ namespace Plugin.GoogleClient.Shared
         public GoogleClientSignInInvalidAccountErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 
-    // Indicates the user canceled the sign in request.
+	// Indicates a network error occurred. Retrying should resolve the problem.
     public class GoogleClientSignInNetworkErrorException : GoogleClientBaseException
     {
         public GoogleClientSignInNetworkErrorException() : base(SignInNetworkErrorMessage) { }
@@ -88,11 +90,27 @@ namespace Plugin.GoogleClient.Shared
         public GoogleClientSignInNetworkErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 
-    // Indicates the user canceled the sign in request.
+	// Indicates an internal error occurred.
     public class GoogleClientSignInInternalErrorException : GoogleClientBaseException
     {
         public GoogleClientSignInInternalErrorException() : base(SignInInternalErrorMessage) { }
         public GoogleClientSignInInternalErrorException(string message) : base(message) { }
         public GoogleClientSignInInternalErrorException(string message, System.Exception inner) : base(message, inner) { }
+    }
+
+	// Indicates the client attempted to connect to the service but the user is not signed in.
+	public class GoogleClientSignInRequiredErrorErrorException : GoogleClientBaseException
+    {
+		public GoogleClientSignInRequiredErrorErrorException() : base(SignInRequiredErrorMessage) { }
+		public GoogleClientSignInRequiredErrorErrorException(string message) : base(message) { }
+		public GoogleClientSignInRequiredErrorErrorException(string message, System.Exception inner) : base(message, inner) { }
+    }
+
+	// Indicates the sign in attempt didn't succeed with the current account.
+	public class GoogleClientSignInFailedErrorException : GoogleClientBaseException
+    {
+		public GoogleClientSignInFailedErrorException() : base(GoogleClientSignInFailedErrorException) { }
+		public GoogleClientSignInFailedErrorException(string message) : base(message) { }
+		public GoogleClientSignInFailedErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 }
