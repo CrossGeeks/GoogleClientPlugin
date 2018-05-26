@@ -27,6 +27,12 @@ namespace Plugin.GoogleClient
             SignIn.SharedInstance.Delegate = this;
         }
 
+		public static void Initialize()
+        {
+            var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
+            SignIn.SharedInstance.ClientID = googleServiceDictionary["CLIENT_ID"].ToString();
+        }
+
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
         event EventHandler<GoogleClientResultEventArgs<GoogleUser>> IGoogleClientManager.OnLogin
         {
@@ -71,6 +77,12 @@ namespace Plugin.GoogleClient
             SignIn.SharedInstance.SignInUser();
 
             return await _loginTcs.Task;
+        }
+
+		public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            var openUrlOptions = new UIApplicationOpenUrlOptions(options);
+            return SignIn.SharedInstance.HandleUrl(url, openUrlOptions.SourceApplication, openUrlOptions.Annotation);
         }
 
         protected virtual void OnLoginCompleted(GoogleClientResultEventArgs<GoogleUser> e)
