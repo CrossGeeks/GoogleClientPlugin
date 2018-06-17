@@ -29,7 +29,9 @@ namespace Plugin.GoogleClient
 
 		public static void Initialize()
         {
-            var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
+			var resourcePathname = NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist");
+
+			var googleServiceDictionary = NSDictionary.FromFile(resourcePathname);
             SignIn.SharedInstance.ClientID = googleServiceDictionary["CLIENT_ID"].ToString();
         }
 
