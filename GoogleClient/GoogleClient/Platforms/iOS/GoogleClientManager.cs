@@ -21,16 +21,17 @@ namespace Plugin.GoogleClient
         private UIViewController _viewController { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
-        public GoogleClientManager()
-        {
-            SignIn.SharedInstance.UIDelegate = this;
-            SignIn.SharedInstance.Delegate = this;
-        }
-
 		public static void Initialize()
         {
+            System.Console.WriteLine("Initialize before UIDelegate init");
+            SignIn.SharedInstance.UIDelegate = CrossGoogleClient.Current as ISignInUIDelegate;
+            System.Console.WriteLine("Initialize before Delegate init");
+            SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
+            System.Console.WriteLine("Initialize before Google Service Dictionary init");
             var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
+            System.Console.WriteLine("Initialize before Client ID init");
             SignIn.SharedInstance.ClientID = googleServiceDictionary["CLIENT_ID"].ToString();
+            System.Console.WriteLine("Initialize after Client ID init");
         }
 
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
@@ -110,8 +111,6 @@ namespace Plugin.GoogleClient
             remove => _onError -= value;
         }
 
-
-
         protected virtual void OnGoogleClientError(GoogleClientErrorEventArgs e)
         {
             _onError?.Invoke(this, e);
@@ -183,7 +182,6 @@ namespace Plugin.GoogleClient
                 OnGoogleClientError(errorEventArgs);
             }
 		}
-
         
         [Export("signIn:didDisconnectWithUser:withError:")]
         public void DidDisconnect(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
