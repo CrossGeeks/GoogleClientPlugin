@@ -23,7 +23,7 @@
     <PackageLicenseUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/CrossGeeks/GoogleClientPlugin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/CrossGeeks/GoogleClientPlugin</RepositoryUrl>
-    <PackageReleaseNotes>Polishment of the Initialize method for iOS.</PackageReleaseNotes>
+    <PackageReleaseNotes>Exposure of the user token.</PackageReleaseNotes>
     <PackageIconUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/art/icon.png?raw=true</PackageIconUrl>
     <PackageTags>xamarin, ios, android, xamarin.forms, plugin, GoogleClient, authentication, google</PackageTags>
 

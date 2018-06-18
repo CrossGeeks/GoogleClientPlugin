@@ -19,6 +19,14 @@ namespace Plugin.GoogleClient
         private String Tag = typeof(GoogleClientManager).FullName;
 
         private UIViewController _viewController { get; set; }
+
+        public string ActiveToken { get { return _activeToken; } }
+        string _activeToken { get; set; }
+
+        /*
+        public DateTime TokenExpirationDate { get { return _tokenExpirationDate; } }
+        DateTime _tokenExpirationDate { get; set; }
+        */
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
 		public static void Initialize(NSBundle mainBundle)
@@ -132,6 +140,11 @@ namespace Plugin.GoogleClient
                         ? new Uri(user.Profile.GetImageUrl(500).ToString())
                         : new Uri(string.Empty)
                 };
+
+                _activeToken = user.Authentication.AccessToken;
+                DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
+                    new DateTime(2001, 1, 1, 0, 0, 0));
+                _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);
 
                 var googleArgs =
                     new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, "the user is authenticated correctly");

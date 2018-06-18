@@ -89,8 +89,10 @@ namespace Plugin.GoogleClient
 
         public bool IsLoggedIn { get; }
 
+        public string ActiveToken { get { return _activeToken; } }
+        static string _activeToken { get; set; }
 
-		static EventHandler<GoogleClientErrorEventArgs> _onError;
+        static EventHandler<GoogleClientErrorEventArgs> _onError;
         public event EventHandler<GoogleClientErrorEventArgs> OnError
         {
             add => _onError += value;
@@ -123,6 +125,8 @@ namespace Plugin.GoogleClient
                         Email = userAccount.Email,
                         Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
                     };
+
+                    _activeToken = result.SignInAccount.IdToken;
 
                     var googleArgs =
                         new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);

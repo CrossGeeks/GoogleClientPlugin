@@ -79,6 +79,8 @@ namespace Plugin.GoogleClient
         event EventHandler<GoogleClientErrorEventArgs> OnError;
         Task<GoogleResponse<GoogleUser>> LoginAsync();
         void Logout();
+        string ActiveToken { get; }
+        //DateTime TokenExpirationDate { get; }
     }
     
 }
