@@ -15,6 +15,17 @@ Here is an example on how to launch the login to the Google Client:
     CrossGoogleClient.Current.LoginAsync();
 ```
 
+This method returns a Google User which contains the basic profile of the user that was authenticated, with the following structure:
+
+```cs
+    public class GoogleUser
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public Uri Picture { get; set; }
+    }
+```
+
 ### Logout
 
 Here is an example on how to logout of the Google Client:
@@ -22,6 +33,10 @@ Here is an example on how to logout of the Google Client:
 ```cs
     CrossGoogleClient.Current.Logout();
 ```
+
+### Available Properties
+* **ActiveToken** (Signed In user token)
+
 
 ### Events
 
@@ -41,4 +56,49 @@ Login event:
   };
 ```
 
-<= Back to [Table of Contents](../README.md)
+
+### Exceptions
+Types of exceptions the user can handle from the Google Client plugin.
+```cs
+    // Indicates Google Sign In could not complete it's process correctly.
+    SignInDefaultErrorException
+
+    // Indicates an unknown error has occured.
+    SignInUnknownErrorException
+
+    // Indicates a problem reading or writing to the application keychain.
+    SignInKeychainErrorException
+
+    /* Indicates no appropriate applications are installed on the user's device which can handle
+    sign-in. This code will only ever be returned if using webview and switching to browser have
+    both been disabled. */
+    SignInNoSignInHandlersInstalledErrorException
+
+    /* Indicates there are no auth tokens in the keychain. This error code will be returned by
+    signInSilently if the user has never signed in before with the given scopes, or if they have
+    since signed out. */
+    SignInHasNoAuthInKeychainErrorException
+
+    // Indicates the user canceled the sign in request.
+    SignInCanceledErrorException
+
+    // Indicates the client attempted to call a method from an API that failed to connect.
+    SignInApiNotConnectedErrorException
+
+    // Indicates The client attempted to connect to the service with an invalid account name specified.
+    SignInInvalidAccountErrorException
+
+    // Indicates a network error occurred. Retrying should resolve the problem.
+    SignInNetworkErrorException
+
+    // Indicates an internal error occurred.
+    SignInInternalErrorException
+
+    // Indicates the client attempted to connect to the service but the user is not signed in.
+    SignInRequiredErrorException
+
+    // Indicates the sign in attempt didn't succeed with the current account.
+    SignInFailedErrorException
+```
+
+<= Back to [Table of Contents](../../README.md)
