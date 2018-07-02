@@ -29,14 +29,14 @@ namespace Plugin.GoogleClient
         */
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
-		public static void Initialize(NSBundle mainBundle)
+		public static void Initialize()
         {
             System.Console.WriteLine("Initialize before UIDelegate init");
             SignIn.SharedInstance.UIDelegate = CrossGoogleClient.Current as ISignInUIDelegate;
             System.Console.WriteLine("Initialize before Delegate init");
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
             System.Console.WriteLine("Initialize before Google Service Dictionary init");
-            var resourcePathname = mainBundle.PathForResource("GoogleService-Info", "plist");
+			var resourcePathname = NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist");
             System.Console.WriteLine($"GoogleClientPlugin: Google Service path: {resourcePathname} ");
             var googleServiceDictionary = NSDictionary.FromFile(resourcePathname);
             System.Console.WriteLine("Initialize before Client ID init");
