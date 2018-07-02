@@ -57,7 +57,7 @@ Fill out the form with the required information and register the App.
 ![iOS Application integration](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/FirebaseConsoleAddToiOS.PNG?raw=true)
 
 
-2. Download the **GoogleService-info.plist** file and add it to your **Xamarin.iOS** project.
+2. Download the **GoogleService-info.plist** file and add it to your **Xamarin.iOS** project, **Important:** you must set the Build Action of this file as a BundleResource so the Plugin can find it as part of the app bundle at runtime.
 
 ![Creating Application 5](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/ConfigurationFileiOS.PNG?raw=true)
 
