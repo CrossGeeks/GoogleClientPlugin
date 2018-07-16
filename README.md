@@ -42,6 +42,11 @@ Here you will find detailed documentation on setting up and using the Google Cli
 
 ### References
 * [Documentation References](GoogleClient/docs/References.md)
+* Google Sign In SDK Bindings by [Xamarin](https://github.com/xamarin):
+
+    - [Xamarin.GooglePlayServices.Auth](https://www.nuget.org/packages/Xamarin.GooglePlayServices.Auth/)
+    
+    - [Xamarin.Google.iOS.SignIn](https://www.nuget.org/packages/Xamarin.Google.iOS.SignIn/)
 
 ### Contributors
 

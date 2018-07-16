@@ -12,6 +12,13 @@
 
 3. Complete the [Google Firebase Console Setup](GoogleFirebaseConsoleSetup.md) to include the required configuration file to your projects.
 
+## AndroidManifest.xml
+
+Add this permission.
+```xml
+    <uses-permission android:name="android.permission.INTERNET"/>
+```
+
 ## MainActivity.cs
 
 - On the **OnCreate** method just after calling base.OnCreate:
@@ -27,13 +34,5 @@ protected override void OnActivityResult(int requestCode, Result resultCode, And
     GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
 }
 ```
-
-## AndroidManifest.xml
-
-Add this permission.
-```xml
-    <uses-permission android:name="android.permission.INTERNET"/>
-```
-
 
 <= Back to [Table of Contents](../../README.md)
