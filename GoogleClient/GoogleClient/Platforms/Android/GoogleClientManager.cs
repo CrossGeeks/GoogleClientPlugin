@@ -128,6 +128,8 @@ namespace Plugin.GoogleClient
 
                     _activeToken = result.SignInAccount.IdToken;
 
+                    System.Console.WriteLine($"Active Token: {_activeToken}");
+
                     var googleArgs =
                         new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);
 
