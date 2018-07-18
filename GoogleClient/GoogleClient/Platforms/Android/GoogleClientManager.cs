@@ -24,14 +24,20 @@ namespace Plugin.GoogleClient
         public static GoogleApiClient GoogleApiClient { get; set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
+        private static String _clientId;
 
 
         internal GoogleClientManager()
         {
-            GoogleSignInOptions googleSignInOptions =
-                new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                    .RequestEmail()
-                    .Build();
+            var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                    .RequestEmail();
+            
+            if(!String.IsNullOrWhiteSpace(_clientId))
+            {
+                gopBuilder.RequestServerAuthCode(_clientId, false);
+            }
+
+            GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
 
             GoogleApiClient = new GoogleApiClient.Builder(Application.Context)
                 .AddConnectionCallbacks(this)
@@ -41,9 +47,10 @@ namespace Plugin.GoogleClient
                 .Build();
         }
 
-        public static void Initialize(Activity activity)
+        public static void Initialize(Activity activity, String clientId = null)
         {
             CurrentActivity = activity;
+            _clientId = clientId;
         }
 
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
