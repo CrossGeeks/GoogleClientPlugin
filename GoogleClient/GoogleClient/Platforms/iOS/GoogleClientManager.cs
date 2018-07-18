@@ -29,19 +29,26 @@ namespace Plugin.GoogleClient
         */
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
-		public static void Initialize()
+		public static void Initialize(String clientId = null)
         {
             System.Console.WriteLine("Initialize before UIDelegate init");
             SignIn.SharedInstance.UIDelegate = CrossGoogleClient.Current as ISignInUIDelegate;
             System.Console.WriteLine("Initialize before Delegate init");
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
+            System.Console.WriteLine("Initialize before Client ID init");
+            SignIn.SharedInstance.ClientID = String.IsNullOrWhiteSpace(clientId)
+                ? GetClientIdFromGoogleServiceDictionary()
+                : clientId;
+            System.Console.WriteLine("Initialize after Client ID init");
+        }
+
+        private static String GetClientIdFromGoogleServiceDictionary()
+        {
             System.Console.WriteLine("Initialize before Google Service Dictionary init");
 			var resourcePathname = NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist");
             System.Console.WriteLine($"GoogleClientPlugin: Google Service path: {resourcePathname} ");
             var googleServiceDictionary = NSDictionary.FromFile(resourcePathname);
-            System.Console.WriteLine("Initialize before Client ID init");
-            SignIn.SharedInstance.ClientID = googleServiceDictionary["CLIENT_ID"].ToString();
-            System.Console.WriteLine("Initialize after Client ID init");
+            return googleServiceDictionary["CLIENT_ID"].ToString();
         }
 
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
