@@ -101,4 +101,17 @@ Types of exceptions the user can handle from the Google Client plugin.
     SignInFailedErrorException
 ```
 
+### Set ClientId Programmatically (Optional)
+If you have a more complex development flow, that integrates CI in which it's better to just set your ClientID programmatically for the Plugin you can do so, sending the ClientId on each projects Initialize method respectively.
+
+#### Android
+```cs
+    GoogleClientManager.Initialize(this, "Xewa3121FDvbam");
+```
+
+#### iOS
+```cs
+    GoogleClientManager.Initialize("Xewa3121FDvbam");
+```
+
 <= Back to [Table of Contents](../../README.md)
