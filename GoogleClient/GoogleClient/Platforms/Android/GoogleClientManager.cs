@@ -24,7 +24,7 @@ namespace Plugin.GoogleClient
         public static GoogleApiClient GoogleApiClient { get; set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
-        private static String _clientId;
+        private static string _clientId;
 
 
         internal GoogleClientManager()
@@ -32,7 +32,7 @@ namespace Plugin.GoogleClient
             var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                     .RequestEmail();
             
-            if(!String.IsNullOrWhiteSpace(_clientId))
+            if(!string.IsNullOrWhiteSpace(_clientId))
             {
                 gopBuilder.RequestServerAuthCode(_clientId, false);
             }
@@ -47,7 +47,7 @@ namespace Plugin.GoogleClient
                 .Build();
         }
 
-        public static void Initialize(Activity activity, String clientId = null)
+        public static void Initialize(Activity activity, string clientId = null)
         {
             CurrentActivity = activity;
             _clientId = clientId;
