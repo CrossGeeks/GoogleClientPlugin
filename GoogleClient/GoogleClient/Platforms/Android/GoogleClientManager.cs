@@ -21,7 +21,7 @@ namespace Plugin.GoogleClient
         // Class Debug Tag
         static string Tag = typeof(GoogleClientManager).FullName;
         static int AuthActivityID = Tag.GetHashCode() % Int16.MaxValue;
-        public static GoogleApiClient GoogleApiClient { get; set; }
+        public static GoogleApiClient GoogleApiClient { get; private set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
         private static string _clientId;
@@ -34,7 +34,7 @@ namespace Plugin.GoogleClient
             
             if(!string.IsNullOrWhiteSpace(_clientId))
             {
-                gopBuilder.RequestServerAuthCode(_clientId, false);
+                gopBuilder.RequestIdToken(_clientId);
             }
 
             GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
