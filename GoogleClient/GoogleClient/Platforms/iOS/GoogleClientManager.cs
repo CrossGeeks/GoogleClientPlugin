@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Linq;
 using Foundation;
 using Google.SignIn;
 using Plugin.GoogleClient.Shared;
@@ -29,17 +30,47 @@ namespace Plugin.GoogleClient
         */
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
 
-		public static void Initialize(string clientId = null)
+		public static void Initialize(
+            string clientId = null,
+            params string[] scopes
+        )
+        {
+            InitializeClientDelegates();
+            InitializeScopes(scopes);
+            InitializeClientId(clientId);
+            System.Console.WriteLine("Initialize after Client ID init");
+        }
+
+        private static void InitializeClientDelegates()
         {
             System.Console.WriteLine("Initialize before UIDelegate init");
             SignIn.SharedInstance.UIDelegate = CrossGoogleClient.Current as ISignInUIDelegate;
             System.Console.WriteLine("Initialize before Delegate init");
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
+        }
+        
+        private static void InitializeScopes(params string[] scopes)
+        {
+            System.Console.WriteLine("Initialize before Scopes init");
+            if(scopes.Length == 0)
+            {
+                return;
+            }
+            var currentScopes = SignIn.SharedInstance.Scopes;
+            var initScopes = currentScopes
+                .Concat(scopes)
+                .Distinct()
+                .ToArray();
+
+            SignIn.SharedInstance.Scopes = initScopes;
+        }
+
+        private static void InitializeClientId(string clientId = null)
+        {
             System.Console.WriteLine("Initialize before Client ID init");
             SignIn.SharedInstance.ClientID = string.IsNullOrWhiteSpace(clientId)
                 ? GetClientIdFromGoogleServiceDictionary()
                 : clientId;
-            System.Console.WriteLine("Initialize after Client ID init");
         }
 
         private static string GetClientIdFromGoogleServiceDictionary()
