@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Gms.Auth.Api;
@@ -26,6 +27,14 @@ namespace Plugin.GoogleClient
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
         private static string _serverClientId;
 		private static string _clientId;
+        private static string[] _initScopes = new string[0];
+        private static Api[] _initApis = new Api[0];
+
+
+        private static readonly string[] DefaultScopes = new []
+        {
+            Scopes.Profile
+        };
 
 
         internal GoogleClientManager()
@@ -41,23 +50,39 @@ namespace Plugin.GoogleClient
 			if(!string.IsNullOrWhiteSpace(_clientId))
             {
 				gopBuilder.RequestIdToken(_clientId);
+
+            foreach (var s in _initScopes)
+            {
+                gopBuilder.RequestScopes(new Scope(s));
             }
 
             GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
 
-            GoogleApiClient = new GoogleApiClient.Builder(Application.Context)
+            var googleApiClientBuilder = new GoogleApiClient.Builder(Application.Context)
                 .AddConnectionCallbacks(this)
                 .AddOnConnectionFailedListener(this)
-                .AddApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
-                .AddScope(new Scope(Scopes.Profile))
-                .Build();
+                .AddApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions);
+
+            foreach(var a in _initApis)
+            {
+                googleApiClientBuilder.AddApi(a);
+            }
+            
+            GoogleApiClient = googleApiClientBuilder.Build();
         }
 
-        public static void Initialize(Activity activity, string serverClientId = null, string clientId = null )
+        public static void Initialize(
+            Activity activity,
+            string serverClientId = null,
+            string clientId = null,
+            Api[] apis = null,
+            string[] scopes = null)
         {
             CurrentActivity = activity;
 			_serverClientId = serverClientId;
             _clientId = clientId;
+            _initApis = apis ?? new Api[0];
+            _initScopes = DefaultScopes.Concat(scopes ?? new string[0]).ToArray();
         }
 
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
@@ -227,7 +252,7 @@ namespace Plugin.GoogleClient
                 return;
             }
 
-            GoogleApiClient.Connect();
+            GoogleApiClient.Connect(GoogleApiClient.SignInModeOptional);
         }
 
         private static Task<GoogleResponse<GoogleUser>> CreateLoginTask()
