@@ -25,7 +25,7 @@ namespace Plugin.GoogleClient
         public static GoogleApiClient GoogleApiClient { get; private set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
-        
+        private static string _serverClientId;
         private static string _clientId;
         private static string[] _initScopes = new string[0];
         private static Api[] _initApis = new Api[0];
@@ -42,10 +42,16 @@ namespace Plugin.GoogleClient
             var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                     .RequestEmail();
             
-            if(!string.IsNullOrWhiteSpace(_clientId))
+			if(!string.IsNullOrWhiteSpace(_serverClientId))
+            {
+				gopBuilder.RequestServerAuthCode(_serverClientId, false);
+            }
+
+			if(!string.IsNullOrWhiteSpace(_clientId))
             {
                 gopBuilder.RequestIdToken(_clientId);
-
+            }
+            
             foreach (var s in _initScopes)
             {
                 gopBuilder.RequestScopes(new Scope(s));
@@ -67,12 +73,14 @@ namespace Plugin.GoogleClient
         }
 
         public static void Initialize(
-            Activity activity, 
+            Activity activity,
+            string serverClientId = null,
             string clientId = null,
             Api[] apis = null,
             string[] scopes = null)
         {
             CurrentActivity = activity;
+            _serverClientId = serverClientId;
             _clientId = clientId;
             _initApis = apis ?? new Api[0];
             _initScopes = DefaultScopes.Concat(scopes ?? new string[0]).ToArray();
@@ -159,6 +167,8 @@ namespace Plugin.GoogleClient
                     };
 
                     _activeToken = result.SignInAccount.IdToken;
+
+                    System.Console.WriteLine($"Active Token: {_activeToken}");
 
                     var googleArgs =
                         new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);

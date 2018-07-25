@@ -180,10 +180,11 @@ namespace Plugin.GoogleClient
                 };
 
                 _activeToken = user.Authentication.AccessToken;
-               /* DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
-                    new DateTime(2001, 1, 1, 0, 0, 0));
-                _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);
-                */
+                System.Console.WriteLine($"Active Token: {_activeToken}");
+                /* DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
+                     new DateTime(2001, 1, 1, 0, 0, 0));
+                 _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);
+                 */
                 var googleArgs =
                     new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, "the user is authenticated correctly");
 
