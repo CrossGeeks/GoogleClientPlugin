@@ -67,39 +67,45 @@ namespace Plugin.GoogleClient
 
         public void Login()
         {
-            var window = UIApplication.SharedApplication.KeyWindow;
-            var vc = window.RootViewController;
-            while (vc.PresentedViewController != null)
-            {
-                vc = vc.PresentedViewController;
-            }
-
-            _viewController = vc;
+            UpdatePresentedViewController();
 
             SignIn.SharedInstance.SignInUser();
         }
 
         public async Task<GoogleResponse<GoogleUser>> LoginAsync()
         {
-            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
+            var task = CreateLoginTask();
 
-            var window = UIApplication.SharedApplication.KeyWindow;
-            var viewController = window.RootViewController;
-            while (viewController.PresentedViewController != null)
-            {
-                viewController = viewController.PresentedViewController;
-            }
-
-            _viewController = viewController;
-
+            UpdatePresentedViewController();
+            
             SignIn.SharedInstance.SignInUser();
 
-            return await _loginTcs.Task;
+            return await task;
         }
 
-        public Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
+        public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
         {
-            throw new NotImplementedException();
+            var task = CreateLoginTask();
+
+            SignIn.SharedInstance.SignInUserSilently();
+            
+            var currentUser = SignIn.SharedInstance.CurrentUser;
+            var isSuccessful = currentUser != null;
+
+            if(isSuccessful)
+            {
+                OnSignInSuccessful(currentUser);
+            }
+            else
+            {
+                var errorEventArgs = new GoogleClientErrorEventArgs();
+                errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
+                errorEventArgs.Message = GoogleClientBaseException.SignInDefaultErrorMessage;
+                _loginTcs.TrySetException(new GoogleClientBaseException());
+                OnGoogleClientError(errorEventArgs);
+            }
+            
+            return await task;
         }
 
 		public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
@@ -140,75 +146,51 @@ namespace Plugin.GoogleClient
 
 		public void DidSignIn(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
         {
-            GoogleUser googleUser = null;
+            var isSuccessful = user != null && error == null;
 
-            if (user != null && error == null)
+            if (isSuccessful)
             {
-                googleUser = new GoogleUser
-                {
-                    Name = user.Profile.Name,
-                    Email = user.Profile.Email,
-                    Picture = user.Profile.HasImage
-                        ? new Uri(user.Profile.GetImageUrl(500).ToString())
-                        : new Uri(string.Empty)
-                };
-
-                _activeToken = user.Authentication.AccessToken;
-                System.Console.WriteLine($"Active Token: {_activeToken}");
-                /* DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
-                     new DateTime(2001, 1, 1, 0, 0, 0));
-                 _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);
-                 */
-                var googleArgs =
-                    new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, "the user is authenticated correctly");
-
-                // Log the result of the authentication
-                Debug.WriteLine(Tag + ": Authentication " + GoogleActionStatus.Completed);
-
-                // Send the result to the receivers
-                _onLogin?.Invoke(this, googleArgs);
-                _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+                OnSignInSuccessful(user);
+                return;
             }
-            else
+        
+            GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
+
+            switch (error.Code)
             {
-                GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
-
-                switch (error.Code)
-                {
-                    case -1:
-                        errorEventArgs.Error = GoogleClientErrorType.SignInUnknownError;
-                        errorEventArgs.Message = GoogleClientBaseException.SignInUnknownErrorMessage;
-                        _loginTcs.TrySetException(new GoogleClientSignInUnknownErrorException());
-                        break;
-                    case -2: 
-                        errorEventArgs.Error = GoogleClientErrorType.SignInKeychainError;
-                        errorEventArgs.Message = GoogleClientBaseException.SignInKeychainErrorMessage;
-                        _loginTcs.TrySetException(new GoogleClientSignInKeychainErrorException());
-                        break;
-                    case -3:
-                        errorEventArgs.Error = GoogleClientErrorType.NoSignInHandlersInstalledError;
-                        errorEventArgs.Message = GoogleClientBaseException.SignInNoSignInHandlersInstalledErrorMessage;
-                        _loginTcs.TrySetException(new GoogleClientSignInNoSignInHandlersInstalledErrorException());
-                        break;
-                    case -4:
-                        errorEventArgs.Error = GoogleClientErrorType.SignInHasNoAuthInKeychainError;
-                        errorEventArgs.Message = GoogleClientBaseException.SignInUnknownErrorMessage;
-                        _loginTcs.TrySetException(new GoogleClientSignInHasNoAuthInKeychainErrorException());
-                        break;
-                    case -5:
-                        errorEventArgs.Error = GoogleClientErrorType.SignInCanceledError;
-                        errorEventArgs.Message = GoogleClientBaseException.SignInCanceledErrorMessage;
-                        _loginTcs.TrySetException(new GoogleClientSignInCanceledErrorException());
-                        break;
-                    default:
-                        errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
-                        errorEventArgs.Message = GoogleClientBaseException.SignInDefaultErrorMessage;
-                        _loginTcs.TrySetException(new GoogleClientBaseException());
-                        break;
-                }
-
-                OnGoogleClientError(errorEventArgs);
+                case -1:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInUnknownError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInUnknownErrorMessage;
+                    _loginTcs.TrySetException(new GoogleClientSignInUnknownErrorException());
+                    break;
+                case -2: 
+                    errorEventArgs.Error = GoogleClientErrorType.SignInKeychainError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInKeychainErrorMessage;
+                    _loginTcs.TrySetException(new GoogleClientSignInKeychainErrorException());
+                    break;
+                case -3:
+                    errorEventArgs.Error = GoogleClientErrorType.NoSignInHandlersInstalledError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInNoSignInHandlersInstalledErrorMessage;
+                    _loginTcs.TrySetException(new GoogleClientSignInNoSignInHandlersInstalledErrorException());
+                    break;
+                case -4:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInHasNoAuthInKeychainError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInUnknownErrorMessage;
+                    _loginTcs.TrySetException(new GoogleClientSignInHasNoAuthInKeychainErrorException());
+                    break;
+                case -5:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInCanceledError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInCanceledErrorMessage;
+                    _loginTcs.TrySetException(new GoogleClientSignInCanceledErrorException());
+                    break;
+                default:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInDefaultErrorMessage;
+                    _loginTcs.TrySetException(new GoogleClientBaseException());
+                    break;
             }
+
+            OnGoogleClientError(errorEventArgs);
 		}
         
         [Export("signIn:didDisconnectWithUser:withError:")]
@@ -233,6 +215,57 @@ namespace Plugin.GoogleClient
         public void DismissViewController(SignIn signIn, UIViewController viewController)
         {
             _viewController?.DismissViewController(true, null);
+        }
+
+        private void UpdatePresentedViewController()
+        {
+            var window = UIApplication.SharedApplication.KeyWindow;
+            var viewController = window.RootViewController;
+            while (viewController.PresentedViewController != null)
+            {
+                viewController = viewController.PresentedViewController;
+            }
+
+            _viewController = viewController;
+        }
+
+
+        private static Task<GoogleResponse<GoogleUser>> CreateLoginTask()
+        {
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
+            
+            return _loginTcs.Task;
+        }
+
+        private void OnSignInSuccessful(Google.SignIn.GoogleUser user)
+        {
+            GoogleUser googleUser = new GoogleUser
+                {
+                    Name = user.Profile.Name,
+                    Email = user.Profile.Email,
+                    Picture = user.Profile.HasImage
+                        ? new Uri(user.Profile.GetImageUrl(500).ToString())
+                        : new Uri(string.Empty)
+                };
+
+                _activeToken = user.Authentication.AccessToken;
+                System.Console.WriteLine($"Active Token: {_activeToken}");
+                /* DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
+                     new DateTime(2001, 1, 1, 0, 0, 0));
+                 _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);
+                 */
+                var googleArgs = new GoogleClientResultEventArgs<GoogleUser>(
+                    googleUser, 
+                    GoogleActionStatus.Completed, 
+                    "the user is authenticated correctly"
+                );
+
+                // Log the result of the authentication
+                Debug.WriteLine(Tag + ": Authentication " + GoogleActionStatus.Completed);
+
+                // Send the result to the receivers
+                _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+                _onLogin?.Invoke(this, googleArgs);
         }
     }
 }
