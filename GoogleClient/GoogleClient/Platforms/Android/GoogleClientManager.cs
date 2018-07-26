@@ -75,6 +75,9 @@ namespace Plugin.GoogleClient
             GoogleApiClient.Connect();
 
             return await _loginTcs.Task;
+        public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
+        {
+            throw new NotImplementedException();
         }
 
         static EventHandler _onLogout;

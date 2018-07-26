@@ -78,6 +78,7 @@ namespace Plugin.GoogleClient
         event EventHandler OnLogout;
         event EventHandler<GoogleClientErrorEventArgs> OnError;
         Task<GoogleResponse<GoogleUser>> LoginAsync();
+        Task<GoogleResponse<GoogleUser>> SilentLoginAsync();
         void Logout();
         string ActiveToken { get; }
         //DateTime TokenExpirationDate { get; }

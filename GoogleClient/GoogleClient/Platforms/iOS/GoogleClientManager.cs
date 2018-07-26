@@ -97,6 +97,11 @@ namespace Plugin.GoogleClient
             return await _loginTcs.Task;
         }
 
+        public Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
+        {
+            throw new NotImplementedException();
+        }
+
 		public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
             var openUrlOptions = new UIApplicationOpenUrlOptions(options);
