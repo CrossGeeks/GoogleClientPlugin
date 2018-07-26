@@ -40,7 +40,7 @@ namespace Plugin.GoogleClient
 
 			if(!string.IsNullOrWhiteSpace(_clientId))
             {
-				gopBuilder.requestIdToken(_clientId);
+				gopBuilder.RequestIdToken(_clientId);
             }
 
             GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
@@ -69,15 +69,23 @@ namespace Plugin.GoogleClient
 
         public async Task<GoogleResponse<GoogleUser>> LoginAsync()
         {
-            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
             Intent intent = Auth.GoogleSignInApi.GetSignInIntent(GoogleApiClient);
             CurrentActivity?.StartActivityForResult(intent, AuthActivityID);
-            GoogleApiClient.Connect();
 
-            return await _loginTcs.Task;
+            ConnectClientIfNeeded();
+            
+            return await CreateLoginTask();
+        }
+
         public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
         {
-            throw new NotImplementedException();
+            ConnectClientIfNeeded();
+            Auth.GoogleSignInApi
+                .SilentSignIn(GoogleClientManager.GoogleApiClient)
+                .AsAsync<GoogleSignInResult>()
+                .ContinueWith(t => ProcessGoogleSignInResult(t.Result));
+            
+            return await CreateLoginTask();
         }
 
         static EventHandler _onLogout;
@@ -124,16 +132,7 @@ namespace Plugin.GoogleClient
             
             GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
 
-            // Log the result of the authentication
-            Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
-
-            if (result.IsSuccess)
-            {
-                OnSignInSuccessful(result);
-                return;
-            }
-            
-            OnSignInFailed(result);
+           ProcessGoogleSignInResult(result);
         }
 
         public void OnConnected(Bundle connectionHint) => Debug.WriteLine(Tag + ": Connection to the client successfull");
@@ -219,6 +218,37 @@ namespace Plugin.GoogleClient
 
             _loginTcs.TrySetException(exception);
             _onError?.Invoke(CrossGoogleClient.Current, errorEventArgs);
+        }
+
+        private void ConnectClientIfNeeded()
+        {
+            if(GoogleApiClient.IsConnected)
+            {
+                return;
+            }
+
+            GoogleApiClient.Connect();
+        }
+
+        private static Task<GoogleResponse<GoogleUser>> CreateLoginTask()
+        {
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
+            
+            return _loginTcs.Task;
+        }
+
+        private static void ProcessGoogleSignInResult(GoogleSignInResult result)
+        {
+             // Log the result of the authentication
+            Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
+
+            if (result.IsSuccess)
+            {
+                OnSignInSuccessful(result);
+                return;
+            }
+            
+            OnSignInFailed(result);
         }
     }
 }
