@@ -40,7 +40,7 @@ namespace Plugin.GoogleClient
 
 			if(!string.IsNullOrWhiteSpace(_clientId))
             {
-				gopBuilder.requestIdToken(_clientId);
+				gopBuilder.RequestIdToken(_clientId);
             }
 
             GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
@@ -69,12 +69,23 @@ namespace Plugin.GoogleClient
 
         public async Task<GoogleResponse<GoogleUser>> LoginAsync()
         {
-            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
             Intent intent = Auth.GoogleSignInApi.GetSignInIntent(GoogleApiClient);
             CurrentActivity?.StartActivityForResult(intent, AuthActivityID);
-            GoogleApiClient.Connect();
 
-            return await _loginTcs.Task;
+            ConnectClientIfNeeded();
+            
+            return await CreateLoginTask();
+        }
+
+        public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
+        {
+            ConnectClientIfNeeded();
+            Auth.GoogleSignInApi
+                .SilentSignIn(GoogleClientManager.GoogleApiClient)
+                .AsAsync<GoogleSignInResult>()
+                .ContinueWith(t => ProcessGoogleSignInResult(t.Result));
+            
+            return await CreateLoginTask();
         }
 
         static EventHandler _onLogout;
@@ -84,10 +95,7 @@ namespace Plugin.GoogleClient
             remove => _onLogout -= value;
         }
 
-        protected virtual void OnLogoutCompleted(EventArgs e)
-        {
-            _onLogout?.Invoke(this, e);
-        }
+        protected virtual void OnLogoutCompleted(EventArgs e) => _onLogout?.Invoke(this, e);
 
         public void Logout()
         {
@@ -113,115 +121,134 @@ namespace Plugin.GoogleClient
             remove => _onError -= value;
         }
 
-        protected virtual void OnGoogleClientError(GoogleClientErrorEventArgs e)
-        {
-            _onError?.Invoke(this, e);
-        }
+        protected virtual void OnGoogleClientError(GoogleClientErrorEventArgs e) => _onError?.Invoke(this, e);
 
         public static void OnAuthCompleted(int requestCode, Result resultCode, Intent data)
         {
-
-            if (requestCode == AuthActivityID)
+            if (requestCode != AuthActivityID)
             {
-                GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+                return;
+            }
+            
+            GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
 
-                GoogleUser googleUser = null;
+           ProcessGoogleSignInResult(result);
+        }
 
-                // Log the result of the authentication
-                Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
+        public void OnConnected(Bundle connectionHint) => Debug.WriteLine(Tag + ": Connection to the client successfull");
 
-                if (result.IsSuccess)
-                {
-                    GoogleSignInAccount userAccount = result.SignInAccount;
-                    googleUser = new GoogleUser
-                    {
-                        Name = userAccount.DisplayName,
-                        Email = userAccount.Email,
-                        Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
-                    };
+        public void OnConnectionSuspended(int cause) => Debug.WriteLine(Tag + ": Connection to the client was suspended");
 
-                    _activeToken = result.SignInAccount.IdToken;
+        public void OnConnectionFailed(ConnectionResult result) => Debug.WriteLine(Tag + ": Connection to the client failed with error <" + result.ErrorCode + "> " + result.ErrorMessage);
 
-                    System.Console.WriteLine($"Active Token: {_activeToken}");
+        private static void OnSignInSuccessful(GoogleSignInResult result)
+        {
+            GoogleSignInAccount userAccount = result.SignInAccount;
+            GoogleUser googleUser = new GoogleUser
+            {
+                Name = userAccount.DisplayName,
+                Email = userAccount.Email,
+                Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
+            };
 
-                    var googleArgs =
-                        new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);
+            _activeToken = result.SignInAccount.IdToken;
 
-                    // Send the result to the receivers
-                    _onLogin?.Invoke(CrossGoogleClient.Current, googleArgs);
-                    _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
-                }
-                else
-                {
-					GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
+            System.Console.WriteLine($"Active Token: {_activeToken}");
 
-                    
+            var googleArgs =
+                new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);
 
-                    switch (result.Status.StatusCode)
-                    {
-                        case GoogleSignInStatusCodes.InternalError:
-                            errorEventArgs.Error = GoogleClientErrorType.SignInInternalError;
-                            errorEventArgs.Message = GoogleClientBaseException.SignInInternalErrorMessage;
-                            _loginTcs.TrySetException(new GoogleClientSignInInternalErrorException());
-                            break;
-                        case GoogleSignInStatusCodes.ApiNotConnected:
-                            errorEventArgs.Error = GoogleClientErrorType.SignInApiNotConnectedError;
-                            errorEventArgs.Message = GoogleClientBaseException.SignInApiNotConnectedErrorMessage;
-                            _loginTcs.TrySetException(new GoogleClientSignInApiNotConnectedErrorException());
-                            break;
-                        case GoogleSignInStatusCodes.NetworkError:
-                            errorEventArgs.Error = GoogleClientErrorType.SignInNetworkError;
-                            errorEventArgs.Message = GoogleClientBaseException.SignInNetworkErrorMessage;
-                            _loginTcs.TrySetException(new GoogleClientSignInNetworkErrorException());
-                            break;
-                        case GoogleSignInStatusCodes.InvalidAccount:
-                            errorEventArgs.Error = GoogleClientErrorType.SignInInvalidAccountError;
-                            errorEventArgs.Message = GoogleClientBaseException.SignInInvalidAccountErrorMessage;
-                            _loginTcs.TrySetException(new GoogleClientSignInInvalidAccountErrorException());
-                            break;
-						case GoogleSignInStatusCodes.SignInRequired:
-							errorEventArgs.Error = GoogleClientErrorType.SignInRequiredError;
-							errorEventArgs.Message = GoogleClientBaseException.SignInRequiredErrorMessage;
-							_loginTcs.TrySetException(new GoogleClientSignInRequiredErrorErrorException());
-                            break;
-						case GoogleSignInStatusCodes.SignInFailed:
-							errorEventArgs.Error = GoogleClientErrorType.SignInFailedError;
-							errorEventArgs.Message = GoogleClientBaseException.SignInFailedErrorMessage;
-							_loginTcs.TrySetException(new GoogleClientSignInFailedErrorException());
-                            break;
-						case GoogleSignInStatusCodes.SignInCancelled:
-                            errorEventArgs.Error = GoogleClientErrorType.SignInCanceledError;
-                            errorEventArgs.Message = GoogleClientBaseException.SignInCanceledErrorMessage;
-                            _loginTcs.TrySetException(new GoogleClientSignInCanceledErrorException());
-                            break;
-                        default:
-                            errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
-							errorEventArgs.Message = result.Status.StatusMessage;
-							_loginTcs.TrySetException(new GoogleClientBaseException(string.IsNullOrEmpty(result.Status.StatusMessage) ? GoogleClientBaseException.SignInDefaultErrorMessage : result.Status.StatusMessage));
-							break;
-					}
+            // Send the result to the receivers
+            _onLogin?.Invoke(CrossGoogleClient.Current, googleArgs);
+            _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
+        }
 
-					_onError?.Invoke(CrossGoogleClient.Current, errorEventArgs);
-                }
+        private static void OnSignInFailed(GoogleSignInResult result)
+        {
+            GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
+            Exception exception = null;
 
+            switch (result.Status.StatusCode)
+            {
+                case GoogleSignInStatusCodes.InternalError:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInInternalError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInInternalErrorMessage;
+                    exception = new GoogleClientSignInInternalErrorException();
+                    break;
+                case GoogleSignInStatusCodes.ApiNotConnected:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInApiNotConnectedError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInApiNotConnectedErrorMessage;
+                    exception = new GoogleClientSignInApiNotConnectedErrorException();
+                    break;
+                case GoogleSignInStatusCodes.NetworkError:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInNetworkError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInNetworkErrorMessage;
+                    exception = new GoogleClientSignInNetworkErrorException();
+                    break;
+                case GoogleSignInStatusCodes.InvalidAccount:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInInvalidAccountError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInInvalidAccountErrorMessage;
+                    exception = new GoogleClientSignInInvalidAccountErrorException();
+                    break;
+                case GoogleSignInStatusCodes.SignInRequired:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInRequiredError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInRequiredErrorMessage;
+                    exception = new GoogleClientSignInRequiredErrorErrorException();
+                    break;
+                case GoogleSignInStatusCodes.SignInFailed:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInFailedError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInFailedErrorMessage;
+                    exception = new GoogleClientSignInFailedErrorException();
+                    break;
+                case GoogleSignInStatusCodes.SignInCancelled:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInCanceledError;
+                    errorEventArgs.Message = GoogleClientBaseException.SignInCanceledErrorMessage;
+                    exception = new GoogleClientSignInCanceledErrorException();
+                    break;
+                default:
+                    errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
+                    errorEventArgs.Message = result.Status.StatusMessage;
+                    exception = new GoogleClientBaseException(
+                        string.IsNullOrEmpty(result.Status.StatusMessage) 
+                            ? GoogleClientBaseException.SignInDefaultErrorMessage 
+                            : result.Status.StatusMessage
+                        );
+                    break;
             }
 
+            _loginTcs.TrySetException(exception);
+            _onError?.Invoke(CrossGoogleClient.Current, errorEventArgs);
         }
 
-        public void OnConnected(Bundle connectionHint)
+        private void ConnectClientIfNeeded()
         {
-            Debug.WriteLine(Tag + ": Connection to the client succesfull");
+            if(GoogleApiClient.IsConnected)
+            {
+                return;
+            }
+
+            GoogleApiClient.Connect();
         }
 
-        public void OnConnectionSuspended(int cause)
+        private static Task<GoogleResponse<GoogleUser>> CreateLoginTask()
         {
-            Debug.WriteLine(Tag + ": Connection to the client was suspended");
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
+            
+            return _loginTcs.Task;
         }
 
-        public void OnConnectionFailed(ConnectionResult result)
+        private static void ProcessGoogleSignInResult(GoogleSignInResult result)
         {
-            Debug.WriteLine(Tag + ": Connection to the client failed with error <" + result.ErrorCode + "> " + result.ErrorMessage);
-        }
+             // Log the result of the authentication
+            Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
 
+            if (result.IsSuccess)
+            {
+                OnSignInSuccessful(result);
+                return;
+            }
+            
+            OnSignInFailed(result);
+        }
     }
 }
