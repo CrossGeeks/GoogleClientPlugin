@@ -146,6 +146,7 @@ namespace Plugin.GoogleClient
             GoogleSignInAccount userAccount = result.SignInAccount;
             GoogleUser googleUser = new GoogleUser
             {
+                Id = userAccount.Id,
                 Name = userAccount.DisplayName,
                 Email = userAccount.Email,
                 Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
