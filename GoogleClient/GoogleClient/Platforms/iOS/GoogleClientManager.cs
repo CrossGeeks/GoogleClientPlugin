@@ -121,8 +121,8 @@ namespace Plugin.GoogleClient
 
         public void Logout()
         {
+            _activeToken = null;
             SignIn.SharedInstance.SignOutUser();
-
             // Send the logout result to the receivers
             OnLogoutCompleted(EventArgs.Empty);
         }

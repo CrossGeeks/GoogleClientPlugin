@@ -100,6 +100,7 @@ namespace Plugin.GoogleClient
         public void Logout()
         {
             Auth.GoogleSignInApi.SignOut(GoogleApiClient);
+            _activeToken = null;
             GoogleApiClient.Disconnect();
 
             // Log the state of the client
