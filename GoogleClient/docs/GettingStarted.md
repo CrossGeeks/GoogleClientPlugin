@@ -20,7 +20,7 @@ This method returns a Google User which contains the basic profile of the user t
 ```cs
     public class GoogleUser
     {
-		public string Id { get; set; }
+	public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public Uri Picture { get; set; }
@@ -102,17 +102,30 @@ Types of exceptions the user can handle from the Google Client plugin.
     SignInFailedErrorException
 ```
 
-### Set ClientId Programmatically (Optional)
-If you have a more complex development flow, that integrates CI in which it's better to just set your ClientID programmatically for the Plugin you can do so, sending the ClientId on each projects Initialize method respectively.
+### Enabling Server Auth Code or RequestIdToken Programmatically (Optional)
+If you have a more complex development flow, that integrates CI in which it's better to just set your Server Client ID and RequestIdToken programmatically for the Plugin you can do so, sending the  Web Client Id on each projects Initialize method respectively.
+
+- Relevant Google Documentation about this topic:
+
+[Authenticate with a backend server](https://developers.google.com/identity/sign-in/android/backend-auth)
+
+[Get your backend server's OAuth 2.0 client ID](https://developers.google.com/identity/sign-in/android/start-integrating#get_your_backend_servers_oauth_20_client_id)
 
 #### Android
 ```cs
-    GoogleClientManager.Initialize(this, "Xewa3121FDvbam");
+    /* 1st Parameter (MainActivity), 2nd Parameter enables the ServerAuthCode 
+    3rd Parameter enables the RequestIdToken. 
+    (You pass the server web client id to both parameters).
+    */
+    GoogleClientManager.Initialize(this, "Xewa3121FDvbam", "Xewa3121FDvbam");
 ```
+After applying this changes, you should now be able to see that your ActiveToken no longer returns null when you access it on the plugin after a successful login.
 
 #### iOS
 ```cs
     GoogleClientManager.Initialize("Xewa3121FDvbam");
 ```
+
+
 
 <= Back to [Table of Contents](../../README.md)
