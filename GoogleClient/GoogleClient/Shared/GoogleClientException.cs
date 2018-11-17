@@ -14,12 +14,21 @@ namespace Plugin.GoogleClient.Shared
         public const string SignInNetworkErrorMessage = "A network error occurred. Retrying should resolve the problem.";
         public const string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
 		public const string SignInRequiredErrorMessage = "The client attempted to connect to the service but the user is not signed in.";
-		public const string SignInFailedErrorMessage = "The sign in attempt didn't succeed with the current account.";
+        public const string SignInFailedErrorMessage = "The sign in attempt didn't succeed with the current account.";
+        public const string ClientNotInitializedErrorMessage = "The Google Plugin is not initialized correctly.";
 
 
-		public GoogleClientBaseException() : base(SignInDefaultErrorMessage) { }
+        public GoogleClientBaseException() : base(SignInDefaultErrorMessage) { }
 		public GoogleClientBaseException(string message) : base(message) { }
         public GoogleClientBaseException(string message, System.Exception inner) : base(message, inner) { }
+    }
+
+    // Indicates an unknown error has occured.
+    public class GoogleClientNotInitializedErrorException : GoogleClientBaseException
+    {
+        public GoogleClientNotInitializedErrorException() : base(SignInUnknownErrorMessage) { }
+        public GoogleClientNotInitializedErrorException(string message) : base(message) { }
+        public GoogleClientNotInitializedErrorException(string message, System.Exception inner) : base(message, inner) { }
     }
 
     // Indicates an unknown error has occured.

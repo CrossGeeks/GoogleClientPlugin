@@ -39,6 +39,18 @@ namespace Plugin.GoogleClient
 
         internal GoogleClientManager()
         {
+            if(CurrentActivity == null)
+            {
+                GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
+                Exception exception = null;
+
+                errorEventArgs.Error = GoogleClientErrorType.SignInInternalError;
+                errorEventArgs.Message = GoogleClientBaseException.SignInInternalErrorMessage;
+                exception = new GoogleClientSignInInternalErrorException();
+
+                _loginTcs.TrySetException(exception);
+            }
+
             var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                     .RequestEmail();
             
