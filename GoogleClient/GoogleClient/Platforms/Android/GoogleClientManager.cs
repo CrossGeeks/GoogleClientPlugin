@@ -39,16 +39,9 @@ namespace Plugin.GoogleClient
 
         internal GoogleClientManager()
         {
-            if(CurrentActivity == null)
+            if (CurrentActivity == null)
             {
-                GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
-                Exception exception = null;
-
-                errorEventArgs.Error = GoogleClientErrorType.SignInInternalError;
-                errorEventArgs.Message = GoogleClientBaseException.SignInInternalErrorMessage;
-                exception = new GoogleClientSignInInternalErrorException();
-
-                _loginTcs.TrySetException(exception);
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
 
             var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
@@ -108,6 +101,12 @@ namespace Plugin.GoogleClient
         public async Task<GoogleResponse<GoogleUser>> LoginAsync()
         {
             Intent intent = Auth.GoogleSignInApi.GetSignInIntent(GoogleApiClient);
+
+            if (CurrentActivity == null)
+            {
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+            }
+
             CurrentActivity?.StartActivityForResult(intent, AuthActivityID);
 
             ConnectClientIfNeeded();

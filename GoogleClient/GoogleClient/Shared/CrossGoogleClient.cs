@@ -28,6 +28,8 @@ namespace Plugin.GoogleClient
                 {
                     throw NotImplementedInReferenceAssembly();
                 }
+
+                
                 return ret;
             }
         }
