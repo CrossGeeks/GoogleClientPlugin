@@ -272,7 +272,10 @@ namespace Plugin.GoogleClient
         {
             GoogleUser googleUser = new GoogleUser
                 {
+                    Id = user.UserID,
                     Name = user.Profile.Name,
+                    GivenName = user.Profile.GivenName,
+                    FamilyName = user.Profile.FamilyName,
                     Email = user.Profile.Email,
                     Picture = user.Profile.HasImage
                         ? new Uri(user.Profile.GetImageUrl(500).ToString())

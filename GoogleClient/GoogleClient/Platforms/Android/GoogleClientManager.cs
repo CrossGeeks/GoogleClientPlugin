@@ -186,6 +186,8 @@ namespace Plugin.GoogleClient
             {
                 Id = userAccount.Id,
                 Name = userAccount.DisplayName,
+                GivenName = userAccount.GivenName,
+                FamilyName = userAccount.FamilyName,
                 Email = userAccount.Email,
                 Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
             };
