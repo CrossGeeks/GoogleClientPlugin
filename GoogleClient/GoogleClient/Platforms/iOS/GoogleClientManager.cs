@@ -23,6 +23,7 @@ namespace Plugin.GoogleClient
 
         public string ActiveToken { get { return _activeToken; } }
         string _activeToken { get; set; }
+        static string _clientId { get; set; }
 
         /*
         public DateTime TokenExpirationDate { get { return _tokenExpirationDate; } }
@@ -38,20 +39,16 @@ namespace Plugin.GoogleClient
             InitializeClientDelegates();
             InitializeScopes(scopes);
             InitializeClientId(clientId);
-            System.Console.WriteLine("Initialize after Client ID init");
         }
 
         private static void InitializeClientDelegates()
         {
-            System.Console.WriteLine("Initialize before UIDelegate init");
             SignIn.SharedInstance.UIDelegate = CrossGoogleClient.Current as ISignInUIDelegate;
-            System.Console.WriteLine("Initialize before Delegate init");
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
         }
         
         private static void InitializeScopes(params string[] scopes)
         {
-            System.Console.WriteLine("Initialize before Scopes init");
             if(scopes.Length == 0)
             {
                 return;
@@ -67,7 +64,6 @@ namespace Plugin.GoogleClient
 
         private static void InitializeClientId(string clientId = null)
         {
-            System.Console.WriteLine("Initialize before Client ID init");
             SignIn.SharedInstance.ClientID = string.IsNullOrWhiteSpace(clientId)
                 ? GetClientIdFromGoogleServiceDictionary()
                 : clientId;
@@ -75,10 +71,9 @@ namespace Plugin.GoogleClient
 
         private static string GetClientIdFromGoogleServiceDictionary()
         {
-            System.Console.WriteLine("Initialize before Google Service Dictionary init");
 			var resourcePathname = NSBundle.MainBundle.PathForResource("GoogleService-Info", "plist");
-            System.Console.WriteLine($"GoogleClientPlugin: Google Service path: {resourcePathname} ");
             var googleServiceDictionary = NSDictionary.FromFile(resourcePathname);
+            _clientId = googleServiceDictionary["CLIENT_ID"].ToString();
             return googleServiceDictionary["CLIENT_ID"].ToString();
         }
 
@@ -105,6 +100,11 @@ namespace Plugin.GoogleClient
 
         public async Task<GoogleResponse<GoogleUser>> LoginAsync()
         {
+            if (SignIn.SharedInstance.ClientID == null)
+            {
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+            }
+
             var task = CreateLoginTask();
 
             UpdatePresentedViewController();
@@ -116,6 +116,11 @@ namespace Plugin.GoogleClient
 
         public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
         {
+            if (SignIn.SharedInstance.ClientID == null)
+            {
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+            }
+
             var task = CreateLoginTask();
 
             SignIn.SharedInstance.SignInUserSilently();
@@ -152,6 +157,11 @@ namespace Plugin.GoogleClient
 
         public void Logout()
         {
+            if (SignIn.SharedInstance.ClientID == null)
+            {
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+            }
+
             _activeToken = null;
             SignIn.SharedInstance.SignOutUser();
             // Send the logout result to the receivers
