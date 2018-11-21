@@ -54,3 +54,4 @@ Here you will find detailed documentation on setting up and using the Google Cli
 * [Rendy Del Rosario](https://github.com/rdelrosario)
 * [RomaRudyak](https://github.com/RomaRudyak)
 * [Thiago Carvalho](https://github.com/stealthcold)
+* [Nathalia](https://github.com/natsoragge)
