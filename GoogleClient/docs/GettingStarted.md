@@ -63,6 +63,9 @@ Login event:
 ### Exceptions
 Types of exceptions the user can handle from the Google Client plugin.
 ```cs
+    // Indicates Google Client Plugin was not initialized correctly on the platform.
+    GoogleClientNotInitializedErrorException	
+
     // Indicates Google Sign In could not complete it's process correctly.
     SignInDefaultErrorException
 
