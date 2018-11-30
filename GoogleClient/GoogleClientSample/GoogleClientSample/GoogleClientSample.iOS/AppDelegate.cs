@@ -24,11 +24,12 @@ namespace GoogleClientSample.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            GoogleClientManager.Initialize();
+            
+			GoogleClientManager.Initialize();
             LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
-
+        
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
             base.OpenUrl(app, url, options);

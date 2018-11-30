@@ -33,6 +33,8 @@ namespace GoogleClientSample.ViewModels
 
         public bool IsLoggedIn { get; set; }
 
+		public string Token { get; set; }
+
         public ICommand LoginCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
         private readonly IGoogleClientManager _googleClientManager;
@@ -42,7 +44,10 @@ namespace GoogleClientSample.ViewModels
         {
             LoginCommand = new Command(LoginAsync);
             LogoutCommand = new Command(Logout);
+           
             _googleClientManager = CrossGoogleClient.Current;
+            
+
             IsLoggedIn = false;
         }
 
@@ -69,6 +74,10 @@ namespace GoogleClientSample.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
             }
+            catch (GoogleClientNotInitializedErrorException e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+            }
 			catch (GoogleClientBaseException e)
             {
                 await App.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
@@ -82,15 +91,19 @@ namespace GoogleClientSample.ViewModels
             if (loginEventArgs.Data != null)
             {
                 GoogleUser googleUser = loginEventArgs.Data;
-
                 User.Name = googleUser.Name;
                 User.Email = googleUser.Email;
                 User.Picture = googleUser.Picture;
-                
+                var GivenName = googleUser.GivenName;
+                var FamilyName = googleUser.FamilyName;
+
 
                 // Log the current User email
                 Debug.WriteLine(User.Email);
                 IsLoggedIn = true;
+
+				var token = CrossGoogleClient.Current.ActiveToken;
+				Token = token;
             }
             else
             {

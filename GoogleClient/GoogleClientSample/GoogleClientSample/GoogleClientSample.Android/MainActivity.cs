@@ -20,7 +20,7 @@ namespace GoogleClientSample.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-            GoogleClientManager.Initialize(this);
+			GoogleClientManager.Initialize(this, null, "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com");
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }

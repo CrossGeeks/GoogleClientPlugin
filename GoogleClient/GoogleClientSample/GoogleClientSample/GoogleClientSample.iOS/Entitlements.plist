@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>com.crossgeeks.googleclientsample</string>
+		<string>$(AppIdentifierPrefix)CNAL8C4H5U.com.crossgeeks.yepyep</string>
 	</array>
 </dict>
 </plist>

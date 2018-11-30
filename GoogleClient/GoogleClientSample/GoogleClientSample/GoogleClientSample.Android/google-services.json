@@ -1,0 +1,223 @@
+{
+  "project_info": {
+    "project_number": "505504259657",
+    "firebase_url": "https://clientsample-52b27.firebaseio.com",
+    "project_id": "clientsample-52b27",
+    "storage_bucket": "clientsample-52b27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505504259657:android:dd621fd341b2ba28",
+        "android_client_info": {
+          "package_name": "com.crossgeeks.googleclientsample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505504259657-8s3rgbidlpgavegu9ma6vuqnct4k2a7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crossgeeks.googleclientsample",
+            "certificate_hash": "b9daef0ad70a49a265023f51bfbced726e82a286"
+          }
+        },
+        {
+          "client_id": "505504259657-tsdi9ej6db1nj6jm4tj33sgjniufepi5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crossgeeks.googleclientsample",
+            "certificate_hash": "5c451933d2822b8f046241faa68a66e1991c0623"
+          }
+        },
+        {
+          "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD34SCPikRhx289aXorO5ei6PBRB7USVUA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "505504259657-7lj235iheopgtflq21rgim3qleikt0oi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nopeia.googlesampleios"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505504259657:android:9c7e463802d0713a",
+        "android_client_info": {
+          "package_name": "com.nopeia.googleloginauth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505504259657-uphhbr17qbn3sgusmm1vusdgpc0njnsq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nopeia.googleloginauth",
+            "certificate_hash": "b9daef0ad70a49a265023f51bfbced726e82a286"
+          }
+        },
+        {
+          "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD34SCPikRhx289aXorO5ei6PBRB7USVUA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "505504259657-7lj235iheopgtflq21rgim3qleikt0oi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nopeia.googlesampleios"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505504259657:android:a4638c15b2dad68e",
+        "android_client_info": {
+          "package_name": "com.nopeia.googlesampleios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505504259657-psd0akor412vq4pn6cq8knvdou7dplf2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nopeia.googlesampleios",
+            "certificate_hash": "5c451933d2822b8f046241faa68a66e1991c0623"
+          }
+        },
+        {
+          "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD34SCPikRhx289aXorO5ei6PBRB7USVUA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "505504259657-7lj235iheopgtflq21rgim3qleikt0oi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nopeia.googlesampleios"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505504259657:android:388cbbd0d60de47b",
+        "android_client_info": {
+          "package_name": "com.yepyep.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505504259657-jvtaibe857b3p05u2ir1la7jjkg926dt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yepyep.mobile",
+            "certificate_hash": "b9daef0ad70a49a265023f51bfbced726e82a286"
+          }
+        },
+        {
+          "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD34SCPikRhx289aXorO5ei6PBRB7USVUA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505504259657-mm99o1b838kmbrnkabshqpf5fd00sbsf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "505504259657-7lj235iheopgtflq21rgim3qleikt0oi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nopeia.googlesampleios"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

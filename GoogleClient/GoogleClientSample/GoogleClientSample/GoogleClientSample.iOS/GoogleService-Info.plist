@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>505504259657-39nbhjgs6d14gsffochmqr625n6j19ik.apps.googleusercontent.com</string>
+	<string>1058623930382-jo6489ffkd82seoget0bdbksbpmit4gv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.505504259657-39nbhjgs6d14gsffochmqr625n6j19ik</string>
+	<string>com.googleusercontent.apps.1058623930382-jo6489ffkd82seoget0bdbksbpmit4gv</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDT1s_1ZWnb4kyicnYVgHc-8tfUb3gpf6E</string>
+	<string>AIzaSyCoa1wjdnaKEjDxRw3tSiEa8m2neCDujd8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>505504259657</string>
+	<string>1058623930382</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.crossgeeks.googleclientsample</string>
+	<string>com.crossgeeks.yepyep</string>
 	<key>PROJECT_ID</key>
-	<string>clientsample-52b27</string>
+	<string>signinios-fe30c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>clientsample-52b27.appspot.com</string>
+	<string>signinios-fe30c.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:505504259657:ios:dd621fd341b2ba28</string>
+	<string>1:1058623930382:ios:10f7dca260690682</string>
 	<key>DATABASE_URL</key>
-	<string>https://clientsample-52b27.firebaseio.com</string>
+	<string>https://signinios-fe30c.firebaseio.com</string>
 </dict>
 </plist>
