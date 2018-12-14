@@ -132,5 +132,36 @@ After applying this changes, you should now be able to see that your ActiveToken
 ```
 
 
+### Silent Login
+If you wish to silently login your users if they have already authenticated on their device without the need to interact with the UI from the Google Sign In SDK and simply set your UI on the Authenticated state.
+
+You can now do this simply calling this line of code:
+```cs
+    CrossGoogleClient.Current.SilentLoginAsync();
+```
+
+### Enable Additional Scopes and API's
+In case you wish to enable additional Scopes and API’s to access different types of information, you can now do so simply by passing in 2 new parameters containing arrays with the scopes and API’s you want to enable on the Google Plugin Initialize method.
+
+Signature of the initialize methods:
+```cs
+//Android initialize method.
+public static void Initialize(
+            Activity activity,
+            string serverClientId = null,
+            string clientId = null,
+            Api[] apis = null,
+            string[] scopes = null)
+```
+
+```cs
+//iOS initialize method.
+public static void Initialize(
+            Activity activity,
+            string serverClientId = null,
+            string clientId = null,
+            Api[] apis = null,
+            string[] scopes = null)
+```
 
 <= Back to [Table of Contents](../../README.md)
