@@ -5,7 +5,7 @@
     <AssemblyName>Plugin.GoogleClient</AssemblyName>
     <RootNamespace>Plugin.GoogleClient</RootNamespace>
     <PackageId>Plugin.GoogleClient</PackageId>
-    
+
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
@@ -30,21 +30,18 @@
     <Title>Google Client Plugin for Xamarin</Title>
     <Summary>Google authentication handling across Xamarin.iOS and Xamarin.Android</Summary>
     <Description>Google authentication handling across Xamarin.iOS and Xamarin.Android</Description>
-    
+
     <Authors>Luis Pujols</Authors>
     <Owners>pujolsluis,crossgeeks</Owners>
     <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.0" PrivateAssets="All" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.6.65" PrivateAssets="All" />
     <Compile Include="Shared\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
   </ItemGroup>
 
   <!--
@@ -54,7 +51,8 @@
   </ItemGroup>
   -->
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid80' ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid80')) ">
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1"/>
     <Compile Include="Platforms\Android\**\*.cs" />
   </ItemGroup>
 
@@ -66,12 +64,7 @@
     <None Remove="Shared\GoogleUser.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid80'">
-    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1">
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'Xamarin.iOS10'">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.1.1">
     </PackageReference>
   </ItemGroup>
@@ -105,7 +98,7 @@
     <PackageReference Include="Tizen.NET" Version="4.0.0" />
   </ItemGroup>
   -->
-  
+
   <!--
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Compile Include="Platforms\DotNet\**\*.cs" />
