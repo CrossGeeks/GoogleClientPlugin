@@ -1,6 +1,6 @@
 # iOS Setup
 
-* Install Plugin.GoogleClient package into your Android project.
+* Install Plugin.GoogleClient package into your iOS project.
 
 ## Prerequisites
 1. Complete the [Google Firebase Console Setup](GoogleFirebaseConsoleSetup.md) to include the required configuration file to you're projects.
