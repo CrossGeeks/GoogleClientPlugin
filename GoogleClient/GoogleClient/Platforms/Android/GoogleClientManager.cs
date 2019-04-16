@@ -21,7 +21,7 @@ namespace Plugin.GoogleClient
     {
         // Class Debug Tag
         static string Tag = typeof(GoogleClientManager).FullName;
-        static int AuthActivityID = Tag.GetHashCode() % Int16.MaxValue;
+        static int AuthActivityID = 9637;
         public static GoogleApiClient GoogleApiClient { get; private set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
@@ -82,13 +82,15 @@ namespace Plugin.GoogleClient
             string serverClientId = null,
             string clientId = null,
             Api[] apis = null,
-            string[] scopes = null)
+            string[] scopes = null,
+            int requestCode = 9637)
         {
             CurrentActivity = activity;
             _serverClientId = serverClientId;
             _clientId = clientId;
             _initApis = apis ?? new Api[0];
             _initScopes = DefaultScopes.Concat(scopes ?? new string[0]).ToArray();
+            AuthActivityID = requestCode;
         }
 
         static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
