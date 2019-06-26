@@ -31,10 +31,15 @@ For our example application we will use a debug key, but to publish your app to 
 
 For the SHA-1 debug key you will need to modify the command bellow, open a CMD or Terminal and paste the bash:
 
+**macOS**
 ```bash
-Mac: keytool -list -v -keystore /Users/[USERNAME]/.local/share/Xamarin/Mono\ for\ Android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+keytool -list -v -keystore /Users/[USERNAME]/.local/share/Xamarin/Mono\ for\ Android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+```
 
-Windows: keytool -list -v -keystore "C:\Users\[USERNAME]\AppData\Local\Xamarin\Mono for Android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+**Windows**
+
+```bash
+keytool -list -v -keystore "C:\Users\[USERNAME]\AppData\Local\Xamarin\Mono for Android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
 
 ```
 
@@ -43,7 +48,8 @@ Windows: keytool -list -v -keystore "C:\Users\[USERNAME]\AppData\Local\Xamarin\M
 ![Creating Application 4](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/ConfigurationFileAndroid.PNG?raw=true)
 
 
-**PDT:** If you replace the google-servies.json file on the sample project and change the Xamarin.Android package name of the project to yours, the android sample project should work.
+>**Note:**  
+>If you replace the google-servies.json file on the sample project and change the Xamarin.Android package name of the project to yours, the android sample project should work.
 
 
 ## iOS Setup
@@ -61,20 +67,22 @@ Fill out the form with the required information and register the App.
 
 ![Creating Application 5](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/ConfigurationFileiOS.PNG?raw=true)
 
-3. Next we will have to add the URL Scheme to our project. So Open the **GoogleService-info.plist** file and copy the **RESERVED_CLIENT_ID** value.
+3. Next we will have to add the URL Scheme to our project. So Open the **GoogleService-info.plist** file and copy the `REVERSED_CLIENT_ID` value.
 ![Creating Application 6](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/iOSReversedClientID.PNG?raw=true)
 
-4. Then open the Xamarin.iOS **info.plist** file, go to the Advanced tab, create a new URL with the editor role and paste it in the URL Scheme Field.
+4. Then open the Xamarin.iOS **Info.plist** file, go to the Advanced tab, create a new URL with the editor role and paste it in the URL Scheme Field.
 ![Creating Application 7](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/iOSInfoplist.PNG?raw=true)
 
 
-**Note:** To be able to run the iOS project on the simulator, you will have to enable Keychain sharing on the **Entitlements.plist**:
+>**Note:**  
+>To be able to run the iOS project on the simulator, you will have to enable Keychain sharing on the **Entitlements.plist**:
 
 ![Creating Application 8](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/Entitlementsplist.PNG?raw=true)
 
 Key chain sharing on iOS, need entitlements and for that we need a valid provision profile, find out more about it [here.](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html)
 
 
-After you have completed the integration of the configurations file to your project you're ready for the final steps in the [Android Setup](AndroidSetup.md) and [iOS Setup](iOSSetup.md) guides.
+After you have completed the integration of the configurations file to your project you're ready for the final steps in the [Android Setup](AndroidSetup.md) and [iOS Setup](iOSSetup.md) guides. 
 
+----------
 <= Back to [Table of Contents](../../README.md)
