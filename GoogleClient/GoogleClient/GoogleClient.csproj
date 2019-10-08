@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid80;Xamarin.iOS10;</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid80;MonoAndroid81;MonoAndroid90;Xamarin.iOS10;</TargetFrameworks>
     <AssemblyName>Plugin.GoogleClient</AssemblyName>
     <RootNamespace>Plugin.GoogleClient</RootNamespace>
     <PackageId>Plugin.GoogleClient</PackageId>
@@ -51,7 +51,7 @@
   </ItemGroup>
   -->
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid80')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1"/>
     <Compile Include="Platforms\Android\**\*.cs" />
   </ItemGroup>
