@@ -9,7 +9,7 @@ Cross platform plugin for handling Google authentication.
 ### Setup
 * Available on Nuget: https://www.nuget.org/packages/Plugin.GoogleClient
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Plugin.GoogleClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.GoogleClient)
-* Install into your PCL project and Client projects.
+* Install into your .NETStandard project and Client projects.
 * Create your [Google Firebase Console Platform](GoogleClient/docs/GoogleFirebaseConsoleSetup.md) application.
 * Follow the [Android](GoogleClient/docs/AndroidSetup.md) and [iOS](GoogleClient/docs/iOSSetup.md) guides
 * Check out [Getting Started](GoogleClient/docs/GettingStarted.md)
@@ -23,7 +23,7 @@ Cross platform plugin for handling Google authentication.
 
 ### API Usage
 
-Call **CrossGoogleClient.Current** from any project or PCL to gain access to API.
+Call **CrossGoogleClient.Current** from any project to gain access to API.
 
 ## Features
 
