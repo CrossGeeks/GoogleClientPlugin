@@ -43,7 +43,7 @@ keytool -list -v -keystore "C:\Users\[USERNAME]\AppData\Local\Xamarin\Mono for A
 
 ```
 
-**4.** Finally, you will be able to download the **google-services.json** file and add it to your **Xamarin.Android** project.
+**4.** Finally, you will be able to download the **google-services.json** file and add it to your **Xamarin.Android** project. Make sure build action is GoogleServicesJson
 
 ![Creating Application 4](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/ConfigurationFileAndroid.PNG?raw=true)
 
@@ -63,11 +63,11 @@ Fill out the form with the required information and register the App.
 ![iOS Application integration](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/FirebaseConsoleAddToiOS.PNG?raw=true)
 
 
-2. Download the **GoogleService-info.plist** file and add it to your **Xamarin.iOS** project, **Important:** you must set the Build Action of this file as a BundleResource so the Plugin can find it as part of the app bundle at runtime.
+2. Download the **GoogleService-Info.plist** file and add it to your **Xamarin.iOS** project, **Important:** you must set the Build Action of this file as a BundleResource so the Plugin can find it as part of the app bundle at runtime.
 
 ![Creating Application 5](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/ConfigurationFileiOS.PNG?raw=true)
 
-3. Next we will have to add the URL Scheme to our project. So Open the **GoogleService-info.plist** file and copy the `REVERSED_CLIENT_ID` value.
+3. Next we will have to add the URL Scheme to our project. So Open the **GoogleService-Info.plist** file and copy the `REVERSED_CLIENT_ID` value.
 ![Creating Application 6](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/iOSReversedClientID.PNG?raw=true)
 
 4. Then open the Xamarin.iOS **Info.plist** file, go to the Advanced tab, create a new URL with the editor role and paste it in the URL Scheme Field.
