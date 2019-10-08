@@ -52,12 +52,8 @@
   -->
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1"/>
     <Compile Include="Platforms\Android\**\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
-    <Compile Include="Platforms\iOS\**\*.cs" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -65,8 +61,8 @@
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.1.1">
-    </PackageReference>
+    <Compile Include="Platforms\iOS\**\*.cs" />
+    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.1.1" />
   </ItemGroup>
 
   <!--
