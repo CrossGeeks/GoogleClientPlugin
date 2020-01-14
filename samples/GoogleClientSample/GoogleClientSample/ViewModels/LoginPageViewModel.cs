@@ -56,7 +56,9 @@ namespace GoogleClientSample.ViewModels
             _googleClientManager.OnLogin += OnLoginCompleted;
 			try 
 			{
-				await _googleClientManager.LoginAsync();
+                Logout();
+
+                await _googleClientManager.LoginAsync();
 			}
 			catch (GoogleClientSignInNetworkErrorException e)
 			{

@@ -3,35 +3,34 @@ using System.Threading.Tasks;
 using System.Linq;
 using Android.App;
 using Android.Content;
-using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
-using Android.OS;
 using Plugin.GoogleClient.Shared;
-using Debug = System.Diagnostics.Debug;
-using Object = Java.Lang.Object;
+using Android.Gms.Tasks;
+using Java.Interop;
+using Android.Gms.Auth;
 
 namespace Plugin.GoogleClient
 {
     /// <summary>
     /// Implementation for GoogleClient
     /// </summary>
-    public class GoogleClientManager : Object, IGoogleClientManager, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
+    public class GoogleClientManager : Java.Lang.Object, IGoogleClientManager, IOnCompleteListener
     {
         // Class Debug Tag
         static string Tag = typeof(GoogleClientManager).FullName;
         static int AuthActivityID = 9637;
-        public static GoogleApiClient GoogleApiClient { get; private set; }
         public static Activity CurrentActivity { get; set; }
         static TaskCompletionSource<GoogleResponse<GoogleUser>> _loginTcs;
-        private static string _serverClientId;
-        private static string _clientId;
-        private static string[] _initScopes = new string[0];
-        private static Api[] _initApis = new Api[0];
+        static string _serverClientId;
+        static string _clientId;
+        static string[] _initScopes = new string[0];
+
+       GoogleSignInClient mGoogleSignInClient;
 
 
-        private static readonly string[] DefaultScopes = new []
+        static readonly string[] DefaultScopes = new []
         {
             Scopes.Profile
         };
@@ -39,7 +38,7 @@ namespace Plugin.GoogleClient
 
         internal GoogleClientManager()
         {
-            if (CurrentActivity == null)
+            if (CurrentActivity == null || mGoogleSignInClient == null)
             {
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
@@ -64,31 +63,20 @@ namespace Plugin.GoogleClient
 
             GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
 
-            var googleApiClientBuilder = new GoogleApiClient.Builder(Application.Context)
-                .AddConnectionCallbacks(this)
-                .AddOnConnectionFailedListener(this)
-                .AddApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions);
-
-            foreach(var a in _initApis)
-            {
-                googleApiClientBuilder.AddApi(a);
-            }
-            
-            GoogleApiClient = googleApiClientBuilder.Build();
+            // Build a GoogleSignInClient with the options specified by gso.
+            mGoogleSignInClient = GoogleSignIn.GetClient(CurrentActivity, googleSignInOptions);
         }
 
         public static void Initialize(
             Activity activity,
             string serverClientId = null,
             string clientId = null,
-            Api[] apis = null,
             string[] scopes = null,
             int requestCode = 9637)
         {
             CurrentActivity = activity;
             _serverClientId = serverClientId;
             _clientId = clientId;
-            _initApis = apis ?? new Api[0];
             _initScopes = DefaultScopes.Concat(scopes ?? new string[0]).ToArray();
             AuthActivityID = requestCode;
         }
@@ -102,29 +90,52 @@ namespace Plugin.GoogleClient
 
         public async Task<GoogleResponse<GoogleUser>> LoginAsync()
         {
-            Intent intent = Auth.GoogleSignInApi.GetSignInIntent(GoogleApiClient);
-
-            if (CurrentActivity == null)
+            if (CurrentActivity == null || mGoogleSignInClient == null)
             {
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
 
-            CurrentActivity?.StartActivityForResult(intent, AuthActivityID);
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
 
-            ConnectClientIfNeeded();
-            
-            return await CreateLoginTask();
+            GoogleSignInAccount account = GoogleSignIn.GetLastSignedInAccount(CurrentActivity);
+
+ 
+            if (account!=null)
+            {
+                OnSignInSuccessful(account);
+            }
+            else
+            {
+                Intent intent = mGoogleSignInClient.SignInIntent;
+                CurrentActivity?.StartActivityForResult(intent, AuthActivityID);
+            }
+
+            return await _loginTcs.Task;
         }
 
         public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
         {
-            ConnectClientIfNeeded();
-            Auth.GoogleSignInApi
-                .SilentSignIn(GoogleClientManager.GoogleApiClient)
-                .AsAsync<GoogleSignInResult>()
-                .ContinueWith(t => ProcessGoogleSignInResult(t.Result));
-            
-            return await CreateLoginTask();
+
+            if (CurrentActivity == null || mGoogleSignInClient == null)
+            {
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+            }
+
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
+
+            GoogleSignInAccount account = GoogleSignIn.GetLastSignedInAccount(CurrentActivity);
+
+            if (account != null)
+            {
+                OnSignInSuccessful(account);
+            }
+            else
+            {
+                GoogleSignInAccount userAccount = await mGoogleSignInClient.SilentSignInAsync();
+                OnSignInSuccessful(userAccount);
+            }
+
+            return await _loginTcs.Task;
         }
 
         static EventHandler _onLogout;
@@ -138,21 +149,37 @@ namespace Plugin.GoogleClient
 
         public void Logout()
         {
-            if(GoogleSignIn.GetLastSignedInAccount(Application.Context)!=null)
+            if (CurrentActivity == null || mGoogleSignInClient == null)
             {
-                Auth.GoogleSignInApi.SignOut(GoogleApiClient);
+                throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+            }
+
+            if (GoogleSignIn.GetLastSignedInAccount(CurrentActivity)!=null)
+            {
+                //Auth.GoogleSignInApi.SignOut(GoogleApiClient);
                 _activeToken = null;
-                GoogleApiClient.Disconnect();
+                mGoogleSignInClient.SignOut();
+                //GoogleApiClient.Disconnect();
 
                 // Log the state of the client
-                Debug.WriteLine(Tag + ": The user has logged out succesfully? " + !GoogleApiClient.IsConnected);
+                //Debug.WriteLine(Tag + ": The user has logged out succesfully? " + !GoogleApiClient.IsConnected);
 
                 // Send the logout result to the receivers
                 OnLogoutCompleted(EventArgs.Empty);
             }
         }
 
-        public bool IsLoggedIn { get; }
+        public bool IsLoggedIn
+        {
+            get
+            {
+                if (CurrentActivity == null || mGoogleSignInClient == null)
+                {
+                    throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
+                }
+                return GoogleSignIn.GetLastSignedInAccount(CurrentActivity) != null;
+            }
+        }
 
         public string ActiveToken { get { return _activeToken; } }
         static string _activeToken { get; set; }
@@ -172,21 +199,12 @@ namespace Plugin.GoogleClient
             {
                 return;
             }
-            
-            GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
-
-           ProcessGoogleSignInResult(result);
+            GoogleSignIn.GetSignedInAccountFromIntent(data).AddOnCompleteListener(CrossGoogleClient.Current as IOnCompleteListener);
+      
         }
 
-        public void OnConnected(Bundle connectionHint) => Debug.WriteLine(Tag + ": Connection to the client successfull");
-
-        public void OnConnectionSuspended(int cause) => Debug.WriteLine(Tag + ": Connection to the client was suspended");
-
-        public void OnConnectionFailed(ConnectionResult result) => Debug.WriteLine(Tag + ": Connection to the client failed with error <" + result.ErrorCode + "> " + result.ErrorMessage);
-
-        private static void OnSignInSuccessful(GoogleSignInResult result)
+        private static void OnSignInSuccessful(GoogleSignInAccount userAccount)
         {
-            GoogleSignInAccount userAccount = result.SignInAccount;
             GoogleUser googleUser = new GoogleUser
             {
                 Id = userAccount.Id,
@@ -197,24 +215,29 @@ namespace Plugin.GoogleClient
                 Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
             };
 
-            _activeToken = result.SignInAccount.IdToken;
+            _activeToken = userAccount.IdToken;
 
+            var scopes= string.Join(' ',userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray());
+
+            var accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
             System.Console.WriteLine($"Active Token: {_activeToken}");
+            System.Console.WriteLine($"Access Token: {accessToken}");
+            System.Console.WriteLine($"Scopes: {scopes}");
 
             var googleArgs =
-                new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed, result.Status.StatusMessage);
+                new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed);
 
             // Send the result to the receivers
             _onLogin?.Invoke(CrossGoogleClient.Current, googleArgs);
             _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
         }
 
-        private static void OnSignInFailed(GoogleSignInResult result)
+        private static void OnSignInFailed(ApiException apiException)
         {
             GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
             Exception exception = null;
 
-            switch (result.Status.StatusCode)
+            switch (apiException.StatusCode)
             {
                 case GoogleSignInStatusCodes.InternalError:
                     errorEventArgs.Error = GoogleClientErrorType.SignInInternalError;
@@ -253,11 +276,11 @@ namespace Plugin.GoogleClient
                     break;
                 default:
                     errorEventArgs.Error = GoogleClientErrorType.SignInDefaultError;
-                    errorEventArgs.Message = result.Status.StatusMessage;
+                    errorEventArgs.Message = apiException.Message;
                     exception = new GoogleClientBaseException(
-                        string.IsNullOrEmpty(result.Status.StatusMessage) 
+                        string.IsNullOrEmpty(apiException.Message) 
                             ? GoogleClientBaseException.SignInDefaultErrorMessage 
-                            : result.Status.StatusMessage
+                            : apiException.Message
                         );
                     break;
             }
@@ -266,35 +289,24 @@ namespace Plugin.GoogleClient
             _loginTcs.TrySetException(exception);
         }
 
-        private void ConnectClientIfNeeded()
+
+        public void OnComplete(Android.Gms.Tasks.Task task)
         {
-            if(GoogleApiClient.IsConnected)
+            if(!task.IsSuccessful)
             {
+                //Failed
+                OnSignInFailed(task.Exception.JavaCast<ApiException>());
                 return;
             }
-
-            GoogleApiClient.Connect(GoogleApiClient.SignInModeOptional);
-        }
-
-        private static Task<GoogleResponse<GoogleUser>> CreateLoginTask()
-        {
-            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
-            
-            return _loginTcs.Task;
-        }
-
-        private static void ProcessGoogleSignInResult(GoogleSignInResult result)
-        {
-             // Log the result of the authentication
-            Debug.WriteLine(Tag + ": Is the user authenticated? " + result.IsSuccess);
-
-            if (result.IsSuccess)
+            else
             {
-                OnSignInSuccessful(result);
-                return;
+                var userAccount = task.Result.JavaCast<GoogleSignInAccount>();
+
+                OnSignInSuccessful(userAccount);
+               
             }
-            
-            OnSignInFailed(result);
+       
+
         }
     }
 }
