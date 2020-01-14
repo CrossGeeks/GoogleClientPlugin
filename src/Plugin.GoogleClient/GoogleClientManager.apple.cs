@@ -19,8 +19,6 @@ namespace Plugin.GoogleClient
         // Class Debug Tag
         private String Tag = typeof(GoogleClientManager).FullName;
 
-        private UIViewController _viewController { get; set; }
-
         public string ActiveToken { get { return _activeToken; } }
         string _activeToken { get; set; }
         static string _clientId { get; set; }
@@ -62,15 +60,6 @@ namespace Plugin.GoogleClient
 
         private static void InitializeClientDelegates()
         {
-
-            var window = UIApplication.SharedApplication.KeyWindow;
-            var vc = window.RootViewController;
-            while (vc.PresentedViewController != null)
-            {
-                vc = vc.PresentedViewController;
-            }
-
-            SignIn.SharedInstance.PresentingViewController = vc;
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
         }
         
@@ -148,6 +137,7 @@ namespace Plugin.GoogleClient
             }
 
             var task = CreateLoginTask();
+
 
             if (SignIn.SharedInstance.HasPreviousSignIn)
                 SignIn.SharedInstance.RestorePreviousSignIn();
@@ -268,23 +258,6 @@ namespace Plugin.GoogleClient
             // Perform any operations when the user disconnects from app here.
         }
 
-        [Export("signInWillDispatch:error:")]
-        public void WillDispatch(SignIn signIn, NSError error)
-        {
-            //myActivityIndicator.StopAnimating();
-        }
-
-        [Export("signIn:presentViewController:")]
-        public void PresentViewController(SignIn signIn, UIViewController viewController)
-        {
-            _viewController?.PresentViewController(viewController, true, null);
-        }
-
-        [Export("signIn:dismissViewController:")]
-        public void DismissViewController(SignIn signIn, UIViewController viewController)
-        {
-            _viewController?.DismissViewController(true, null);
-        }
 
         private void UpdatePresentedViewController()
         {
@@ -295,7 +268,7 @@ namespace Plugin.GoogleClient
                 viewController = viewController.PresentedViewController;
             }
 
-            _viewController = viewController;
+            SignIn.SharedInstance.PresentingViewController = viewController;
         }
 
 
