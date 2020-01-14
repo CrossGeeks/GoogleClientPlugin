@@ -10,9 +10,9 @@ Cross platform plugin for handling Google authentication.
 * Available on Nuget: https://www.nuget.org/packages/Plugin.GoogleClient
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Plugin.GoogleClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.GoogleClient)
 * Install into your .NETStandard project and Client projects.
-* Create your [Google Firebase Console Platform](GoogleClientPlugin/docs/GoogleFirebaseConsoleSetup.md) application.
-* Follow the [Android](GoogleClientPlugin/docs/AndroidSetup.md) and [iOS](GoogleClient/docs/iOSSetup.md) guides
-* Check out [Getting Started](GoogleClientPlugin/docs/GettingStarted.md)
+* Create your [Google Firebase Console Platform](docs/GoogleFirebaseConsoleSetup.md) application.
+* Follow the [Android](docs/AndroidSetup.md) and [iOS](GoogleClient/docs/iOSSetup.md) guides
+* Check out [Getting Started](docs/GettingStarted.md)
 
 **Platform Support**
 
@@ -33,15 +33,15 @@ Call **CrossGoogleClient.Current** from any project to gain access to API.
 
 Here you will find detailed documentation on setting up and using the Google Client Plugin for Xamarin
 
-* [Google Firebase Console Setup](GoogleClientPlugin/docs/GoogleFirebaseConsoleSetup.md) 
-* [Android Setup](GoogleClientPlugin/docs/AndroidSetup.md)
-* [iOS Setup](GoogleClientPlugin/docs/iOSSetup.md)
+* [Google Firebase Console Setup](docs/GoogleFirebaseConsoleSetup.md) 
+* [Android Setup](docs/AndroidSetup.md)
+* [iOS Setup](docs/iOSSetup.md)
 
 ### Google Client Sample Application
-* [Google Client Sample App](GoogleClientPlugin/samples)
+* [Google Client Sample App](samples)
 
 ### References
-* [Documentation References](GoogleClientPlugin/docs/References.md)
+* [Documentation References](docs/References.md)
 * Google Sign In SDK Bindings by [Xamarin](https://github.com/xamarin):
 
     - [Xamarin.GooglePlayServices.Auth](https://www.nuget.org/packages/Xamarin.GooglePlayServices.Auth/)
