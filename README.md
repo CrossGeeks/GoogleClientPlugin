@@ -3,16 +3,16 @@
 Cross platform plugin for handling Google authentication.
 
 <p align="center">
-<img src="https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/images/googleclient.gif" height="400" width="240" title="Google Client"/>
+<img src="images/googleclient.gif" height="400" width="240" title="Google Client"/>
 </p>
 
 ### Setup
 * Available on Nuget: https://www.nuget.org/packages/Plugin.GoogleClient
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Plugin.GoogleClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.GoogleClient)
 * Install into your .NETStandard project and Client projects.
-* Create your [Google Firebase Console Platform](GoogleClient/docs/GoogleFirebaseConsoleSetup.md) application.
-* Follow the [Android](GoogleClient/docs/AndroidSetup.md) and [iOS](GoogleClient/docs/iOSSetup.md) guides
-* Check out [Getting Started](GoogleClient/docs/GettingStarted.md)
+* Create your [Google Firebase Console Platform](docs/GoogleFirebaseConsoleSetup.md) application.
+* Follow the [Android](docs/AndroidSetup.md) and [iOS](GoogleClient/docs/iOSSetup.md) guides
+* Check out [Getting Started](docs/GettingStarted.md)
 
 **Platform Support**
 
@@ -33,15 +33,15 @@ Call **CrossGoogleClient.Current** from any project to gain access to API.
 
 Here you will find detailed documentation on setting up and using the Google Client Plugin for Xamarin
 
-* [Google Firebase Console Setup](GoogleClient/docs/GoogleFirebaseConsoleSetup.md) 
-* [Android Setup](GoogleClient/docs/AndroidSetup.md)
-* [iOS Setup](GoogleClient/docs/iOSSetup.md)
+* [Google Firebase Console Setup](docs/GoogleFirebaseConsoleSetup.md) 
+* [Android Setup](docs/AndroidSetup.md)
+* [iOS Setup](docs/iOSSetup.md)
 
 ### Google Client Sample Application
-* [Google Client Sample App](GoogleClient/GoogleClientSample)
+* [Google Client Sample App](samples)
 
 ### References
-* [Documentation References](GoogleClient/docs/References.md)
+* [Documentation References](docs/References.md)
 * Google Sign In SDK Bindings by [Xamarin](https://github.com/xamarin):
 
     - [Xamarin.GooglePlayServices.Auth](https://www.nuget.org/packages/Xamarin.GooglePlayServices.Auth/)
