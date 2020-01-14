@@ -127,7 +127,7 @@
       <Version>2.5.9</Version>
     </PackageReference>
     <PackageReference Include="Plugin.GoogleClient">
-      <Version>2.0.2-beta</Version>
+      <Version>2.0.9-beta</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

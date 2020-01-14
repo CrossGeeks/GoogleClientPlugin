@@ -29,6 +29,22 @@ namespace Plugin.GoogleClient
 
        GoogleSignInClient mGoogleSignInClient;
 
+        public GoogleUser CurrentUser
+        {
+            get
+            {
+                GoogleSignInAccount userAccount = GoogleSignIn.GetLastSignedInAccount(CurrentActivity);
+                return userAccount !=null ?new GoogleUser
+                {
+                    Id = userAccount.Id,
+                    Name = userAccount.DisplayName,
+                    GivenName = userAccount.GivenName,
+                    FamilyName = userAccount.FamilyName,
+                    Email = userAccount.Email,
+                    Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
+                }: null; 
+            }
+        }
 
         static readonly string[] DefaultScopes = new []
         {
@@ -38,7 +54,7 @@ namespace Plugin.GoogleClient
 
         internal GoogleClientManager()
         {
-            if (CurrentActivity == null || mGoogleSignInClient == null)
+            if (CurrentActivity == null)
             {
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }

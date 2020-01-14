@@ -55,10 +55,10 @@
       <Version>4.4.0.991477</Version>
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.2.3</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Plugin.GoogleClient">
-      <Version>2.0.2-beta</Version>
+      <Version>2.0.9-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Annotations">
       <Version>28.0.0.3</Version>
@@ -96,7 +96,7 @@
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <None Include="google-services.json" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -115,7 +115,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
     <AndroidResource Include="Resources\drawable\googlelogo.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher_crossgeeks.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher_crossgeeks_drop_shadow.png" />
@@ -125,6 +124,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher_crossgeeks_drop_shadow.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_launcher_crossgeeks.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_launcher_crossgeeks_drop_shadow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <GoogleServicesJson Include="google-services.json" />
   </ItemGroup>
   <Import Project="..\GoogleClientSample\GoogleClientSample.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

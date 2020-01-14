@@ -25,6 +25,25 @@ namespace Plugin.GoogleClient
         string _activeToken { get; set; }
         static string _clientId { get; set; }
 
+        public GoogleUser CurrentUser
+        {
+            get
+            {
+                var user = SignIn.SharedInstance.CurrentUser;
+                return user!=null? new GoogleUser
+                {
+                    Id = user.UserId,
+                    Name = user.Profile.Name,
+                    GivenName = user.Profile.GivenName,
+                    FamilyName = user.Profile.FamilyName,
+                    Email = user.Profile.Email,
+                    Picture = user.Profile.HasImage
+                        ? new Uri(user.Profile.GetImageUrl(500).ToString())
+                        : new Uri(string.Empty)
+                }: null;
+            }
+        }
+
         /*
         public DateTime TokenExpirationDate { get { return _tokenExpirationDate; } }
         DateTime _tokenExpirationDate { get; set; }
@@ -170,7 +189,7 @@ namespace Plugin.GoogleClient
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
 
-            if(SignIn.SharedInstance.HasPreviousSignIn)
+            if (SignIn.SharedInstance.HasPreviousSignIn)
             {
                 _activeToken = null;
                 SignIn.SharedInstance.SignOutUser();

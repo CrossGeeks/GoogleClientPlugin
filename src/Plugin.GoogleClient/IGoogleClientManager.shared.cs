@@ -81,6 +81,7 @@ namespace Plugin.GoogleClient
         Task<GoogleResponse<GoogleUser>> SilentLoginAsync();
         void Logout();
         string ActiveToken { get; }
+        GoogleUser CurrentUser { get; }
         //DateTime TokenExpirationDate { get; }
     }
     
