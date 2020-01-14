@@ -1,5 +1,7 @@
 # Google Client Plugin for Xamarin iOS and Android
 
+[![Build Status](https://dev.azure.com/CrossGeeks/Plugins/_apis/build/status/GoogleClient/GoogleClient%20Plugin%20CI%20Pipeline?branchName=master)](https://dev.azure.com/CrossGeeks/Plugins/_build/latest?definitionId=3&branchName=master)
+
 Cross platform plugin for handling Google authentication.
 
 <p align="center">
