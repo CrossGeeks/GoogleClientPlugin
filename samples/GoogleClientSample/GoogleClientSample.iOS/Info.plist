@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Google Client Sample</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.crossgeeks.yepyep</string>
+	<string>com.crossgeeks.googleclientsample</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
