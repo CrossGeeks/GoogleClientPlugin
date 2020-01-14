@@ -189,7 +189,7 @@ namespace Plugin.GoogleClient
         {
             get
             {
-                if (CurrentActivity == null || mGoogleSignInClient == null)
+                if (CurrentActivity == null)
                 {
                     throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
                 }
@@ -232,13 +232,19 @@ namespace Plugin.GoogleClient
             };
 
             _activeToken = userAccount.IdToken;
-
-            var scopes= string.Join(' ',userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray());
-
-            var accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
             System.Console.WriteLine($"Active Token: {_activeToken}");
-            System.Console.WriteLine($"Access Token: {accessToken}");
-            System.Console.WriteLine($"Scopes: {scopes}");
+
+
+            if (userAccount.GrantedScopes != null &&  userAccount.GrantedScopes.Count>0)
+            {
+                var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
+
+                var accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
+
+                System.Console.WriteLine($"Access Token: {accessToken}");
+                System.Console.WriteLine($"Scopes: {scopes}");
+
+            }
 
             var googleArgs =
                 new GoogleClientResultEventArgs<GoogleUser>(googleUser, GoogleActionStatus.Completed);
@@ -312,7 +318,6 @@ namespace Plugin.GoogleClient
             {
                 //Failed
                 OnSignInFailed(task.Exception.JavaCast<ApiException>());
-                return;
             }
             else
             {
