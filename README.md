@@ -3,7 +3,7 @@
 Cross platform plugin for handling Google authentication.
 
 <p align="center">
-<img src="https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClientPlugin/images/googleclient.gif" height="400" width="240" title="Google Client"/>
+<img src="images/googleclient.gif" height="400" width="240" title="Google Client"/>
 </p>
 
 ### Setup
