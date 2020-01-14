@@ -36,12 +36,10 @@ namespace Plugin.GoogleClient
 
         static IGoogleClientManager CreateGoogleClient()
         {
-#if NETSTANDARD1_0 || NETSTANDARD2_0
+#if  NETSTANDARD2_0
             return null;
 #else
-#pragma warning disable IDE0022 // Use expression body for methods
             return new GoogleClientManager();
-#pragma warning restore IDE0022 // Use expression body for methods
 #endif
         }
 

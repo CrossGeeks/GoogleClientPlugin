@@ -138,15 +138,18 @@ namespace Plugin.GoogleClient
 
         public void Logout()
         {
-            Auth.GoogleSignInApi.SignOut(GoogleApiClient);
-            _activeToken = null;
-            GoogleApiClient.Disconnect();
+            if(GoogleSignIn.GetLastSignedInAccount(Application.Context)!=null)
+            {
+                Auth.GoogleSignInApi.SignOut(GoogleApiClient);
+                _activeToken = null;
+                GoogleApiClient.Disconnect();
 
-            // Log the state of the client
-            Debug.WriteLine(Tag + ": The user has logged out succesfully? " + !GoogleApiClient.IsConnected);
+                // Log the state of the client
+                Debug.WriteLine(Tag + ": The user has logged out succesfully? " + !GoogleApiClient.IsConnected);
 
-            // Send the logout result to the receivers
-            OnLogoutCompleted(EventArgs.Empty);
+                // Send the logout result to the receivers
+                OnLogoutCompleted(EventArgs.Empty);
+            }
         }
 
         public bool IsLoggedIn { get; }
@@ -259,8 +262,8 @@ namespace Plugin.GoogleClient
                     break;
             }
 
-            _loginTcs.TrySetException(exception);
             _onError?.Invoke(CrossGoogleClient.Current, errorEventArgs);
+            _loginTcs.TrySetException(exception);
         }
 
         private void ConnectClientIfNeeded()
