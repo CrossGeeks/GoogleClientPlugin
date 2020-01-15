@@ -65,17 +65,18 @@ namespace Plugin.GoogleClient
         )
         {
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
-            if (scopes.Length == 0)
+            if (scopes.Length > 0)
             {
-                return;
-            }
-            var currentScopes = SignIn.SharedInstance.Scopes;
-            var initScopes = currentScopes
-                .Concat(scopes)
-                .Distinct()
-                .ToArray();
 
-            SignIn.SharedInstance.Scopes = initScopes;
+                var currentScopes = SignIn.SharedInstance.Scopes;
+                var initScopes = currentScopes
+                    .Concat(scopes)
+                    .Distinct()
+                    .ToArray();
+
+
+                SignIn.SharedInstance.Scopes = initScopes;
+            }
 
             SignIn.SharedInstance.ClientId = string.IsNullOrWhiteSpace(clientId)
                 ? GetClientIdFromGoogleServiceDictionary()
