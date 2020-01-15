@@ -128,7 +128,7 @@
       <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Plugin.GoogleClient">
-      <Version>2.0.13-beta</Version>
+      <Version>2.0.15-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Firebase.iOS.Core">
       <Version>6.1.0</Version>

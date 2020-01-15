@@ -64,21 +64,8 @@ namespace Plugin.GoogleClient
             params string[] scopes
         )
         {
-       
-            InitializeClientDelegates();
-            InitializeScopes(scopes);
-            InitializeClientId(clientId);
-            //SignIn.SharedInstance.ShouldFetchBasicProfile = true;
-        }
-
-        private static void InitializeClientDelegates()
-        {
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
-        }
-        
-        private static void InitializeScopes(params string[] scopes)
-        {
-            if(scopes.Length == 0)
+            if (scopes.Length == 0)
             {
                 return;
             }
@@ -89,13 +76,11 @@ namespace Plugin.GoogleClient
                 .ToArray();
 
             SignIn.SharedInstance.Scopes = initScopes;
-        }
 
-        private static void InitializeClientId(string clientId = null)
-        {
             SignIn.SharedInstance.ClientId = string.IsNullOrWhiteSpace(clientId)
                 ? GetClientIdFromGoogleServiceDictionary()
                 : clientId;
+            //SignIn.SharedInstance.ShouldFetchBasicProfile = true;
         }
 
         private static string GetClientIdFromGoogleServiceDictionary()
@@ -133,13 +118,17 @@ namespace Plugin.GoogleClient
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
 
-            var task = CreateLoginTask();
+
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
 
             UpdatePresentedViewController();
-            
-            SignIn.SharedInstance.SignInUser();
+            if (!IsLoggedIn)
+            {
+               
+                SignIn.SharedInstance.SignInUser();
+            }
 
-            return await task;
+            return await _loginTcs.Task;
         }
 
         public async Task<GoogleResponse<GoogleUser>> SilentLoginAsync()
@@ -193,7 +182,7 @@ namespace Plugin.GoogleClient
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
 
-            if (SignIn.SharedInstance.HasPreviousSignIn)
+            if (IsLoggedIn)
             {
                 _activeToken = null;
                 SignIn.SharedInstance.SignOutUser();
