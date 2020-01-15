@@ -27,6 +27,9 @@ namespace Plugin.GoogleClient
         {
             get
             {
+                if (SignIn.SharedInstance.HasPreviousSignIn)
+                    SignIn.SharedInstance.RestorePreviousSignIn();
+
                 var user = SignIn.SharedInstance.CurrentUser;
                 return user!=null? new GoogleUser
                 {
@@ -42,6 +45,14 @@ namespace Plugin.GoogleClient
             }
         }
 
+        public bool IsLoggedIn
+        {
+            get
+            {
+                return SignIn.SharedInstance.HasPreviousSignIn;
+            }
+        }
+
         /*
         public DateTime TokenExpirationDate { get { return _tokenExpirationDate; } }
         DateTime _tokenExpirationDate { get; set; }
@@ -53,9 +64,11 @@ namespace Plugin.GoogleClient
             params string[] scopes
         )
         {
+       
             InitializeClientDelegates();
             InitializeScopes(scopes);
             InitializeClientId(clientId);
+            //SignIn.SharedInstance.ShouldFetchBasicProfile = true;
         }
 
         private static void InitializeClientDelegates()
@@ -109,7 +122,7 @@ namespace Plugin.GoogleClient
         public void Login()
         {
             UpdatePresentedViewController();
-
+           
             SignIn.SharedInstance.SignInUser();
         }
 
@@ -136,6 +149,7 @@ namespace Plugin.GoogleClient
                 throw new GoogleClientNotInitializedErrorException(GoogleClientBaseException.ClientNotInitializedErrorMessage);
             }
 
+            //SignIn.SharedInstance.CurrentUser.Authentication.ClientId != _clientId
             var task = CreateLoginTask();
 
 
@@ -211,7 +225,7 @@ namespace Plugin.GoogleClient
                 OnSignInSuccessful(user);
                 return;
             }
-        
+
             GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
             Exception exception = null;
             switch (error.Code)
@@ -293,8 +307,17 @@ namespace Plugin.GoogleClient
                         : new Uri(string.Empty)
                 };
 
-                _activeToken = user.Authentication.AccessToken;
-                System.Console.WriteLine($"Active Token: {_activeToken}");
+                 user.Authentication.GetTokens(async (Authentication authentication, NSError error) =>
+                {
+                    if(error ==null)
+                    {
+                        _activeToken = authentication.AccessToken;
+                        System.Console.WriteLine($"Active Token: {_activeToken}");
+                    }
+             
+                });
+
+             
                 /* DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
                      new DateTime(2001, 1, 1, 0, 0, 0));
                  _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);

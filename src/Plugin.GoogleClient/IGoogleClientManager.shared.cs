@@ -82,6 +82,7 @@ namespace Plugin.GoogleClient
         void Logout();
         string ActiveToken { get; }
         GoogleUser CurrentUser { get; }
+        bool IsLoggedIn { get; }
         //DateTime TokenExpirationDate { get; }
     }
     

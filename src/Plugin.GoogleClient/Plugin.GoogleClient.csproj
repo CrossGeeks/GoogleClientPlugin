@@ -21,7 +21,7 @@
     <PackageProjectUrl>https://github.com/CrossGeeks/GoogleClientPlugin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/CrossGeeks/GoogleClientPlugin</RepositoryUrl>
     <PackageIconUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/art/icon.png?raw=true</PackageIconUrl>
-    <PackageTags>xamarin, ios, android, xamarin.forms, plugin, GoogleClient, authentication, google</PackageTags>
+    <PackageTags>xamarin, ios, android, xamarin.forms, plugin, google client, authentication, google</PackageTags>
 
     <Title>Google Client Plugin for Xamarin</Title>
     <Summary>Google authentication handling across Xamarin.iOS and Xamarin.Android</Summary>
@@ -65,12 +65,16 @@
     <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="71.1600.0" />
     <PackageReference Include="Xamarin.GooglePlayServices.Basement" Version="71.1620.0" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Tasks" Version="71.1601.0" />
+    <PackageReference Include="Xamarin.Build.Download" Version="0.4.11" />
     <Compile Include="**\*.android.cs" />
     <Compile Include="**\*.android.*.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="5.0.1" />
+    <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="6.1.0" />
+    <PackageReference Include="Xamarin.Build.Download" Version="0.4.11" />
     <Compile Include="**\*.apple.cs" />
     <Compile Include="**\*.apple.*.cs" />
   </ItemGroup>
