@@ -65,7 +65,7 @@ namespace Plugin.GoogleClient
         )
         {
             SignIn.SharedInstance.Delegate = CrossGoogleClient.Current as ISignInDelegate;
-            if (scopes.Length > 0)
+            if (scopes != null && scopes.Length > 0)
             {
 
                 var currentScopes = SignIn.SharedInstance.Scopes;
@@ -170,8 +170,7 @@ namespace Plugin.GoogleClient
             }
 
             //SignIn.SharedInstance.CurrentUser.Authentication.ClientId != _clientId
-            var task = CreateLoginTask();
-
+            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
 
             if (SignIn.SharedInstance.HasPreviousSignIn)
                 SignIn.SharedInstance.RestorePreviousSignIn();
@@ -191,8 +190,8 @@ namespace Plugin.GoogleClient
                 _onError?.Invoke(this, errorEventArgs);
                 _loginTcs.TrySetException(new GoogleClientBaseException());
             }
-            
-            return await task;
+
+            return await _loginTcs.Task;
         }
 
 		public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
@@ -305,13 +304,6 @@ namespace Plugin.GoogleClient
             SignIn.SharedInstance.PresentingViewController = viewController;
         }
 
-
-        private static Task<GoogleResponse<GoogleUser>> CreateLoginTask()
-        {
-            _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
-            
-            return _loginTcs.Task;
-        }
 
         private void OnSignInSuccessful(Google.SignIn.GoogleUser user)
         {
