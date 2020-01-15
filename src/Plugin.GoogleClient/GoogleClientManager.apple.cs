@@ -122,10 +122,40 @@ namespace Plugin.GoogleClient
             _loginTcs = new TaskCompletionSource<GoogleResponse<GoogleUser>>();
 
             UpdatePresentedViewController();
-            if (!IsLoggedIn)
+            if (CurrentUser == null)
             {
                
                 SignIn.SharedInstance.SignInUser();
+            }
+            else
+            {
+                SignIn.SharedInstance.CurrentUser.Authentication.GetTokens(async (Authentication authentication, NSError error) =>
+                {
+                    if (error == null)
+                    {
+                        _activeToken = authentication.AccessToken;
+                        System.Console.WriteLine($"Active Token: {_activeToken}");
+                    }
+
+                });
+
+
+                /* DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
+                     new DateTime(2001, 1, 1, 0, 0, 0));
+                 _tokenExpirationDate = newDate.AddSeconds(user.Authentication.AccessTokenExpirationDate.SecondsSinceReferenceDate);
+                 */
+                var googleArgs = new GoogleClientResultEventArgs<GoogleUser>(
+                    CurrentUser,
+                    GoogleActionStatus.Completed,
+                    "the user is authenticated correctly"
+                );
+
+                // Log the result of the authentication
+                Debug.WriteLine(Tag + ": Authentication " + GoogleActionStatus.Completed);
+
+                // Send the result to the receivers
+                _onLogin?.Invoke(this, googleArgs);
+                _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
             }
 
             return await _loginTcs.Task;
