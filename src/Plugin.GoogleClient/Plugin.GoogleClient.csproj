@@ -1,7 +1,7 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.41">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;MonoAndroid90;Xamarin.iOS10;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;MonoAndroid90;MonoAndroid9=10.0;Xamarin.iOS10;</TargetFrameworks>
     <AssemblyName>Plugin.GoogleClient</AssemblyName>
     <RootNamespace>Plugin.GoogleClient</RootNamespace>
     <PackageId>Plugin.GoogleClient</PackageId>
