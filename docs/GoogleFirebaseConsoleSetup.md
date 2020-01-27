@@ -42,6 +42,26 @@ keytool -list -v -keystore /Users/[USERNAME]/.local/share/Xamarin/Mono\ for\ And
 keytool -list -v -keystore "C:\Users\[USERNAME]\AppData\Local\Xamarin\Mono for Android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
 
 ```
+Other alternative is to adding this method and calling it on the MainActivity OnCreate method to get the SHA 1 printed on the application output:
+
+```cs
+  public static void PrintHashKey (Context pContext)
+  {
+            try {
+                PackageInfo info = Android.App.Application.Context.PackageManager.GetPackageInfo (Android.App.Application.Context.PackageName, PackageInfoFlags.Signatures);
+                foreach (var signature in info.Signatures) {
+                    MessageDigest md = MessageDigest.GetInstance ("SHA");
+                    md.Update (signature.ToByteArray ());
+
+                    System.Diagnostics.Debug.WriteLine (BitConverter.ToString(md.Digest ()).Replace ("-", ":"));
+                }
+            } catch (NoSuchAlgorithmException e) {
+                System.Diagnostics.Debug.WriteLine (e);
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine (e);
+            }
+   }
+```
 
 **4.** Finally, you will be able to download the **google-services.json** file and add it to your **Xamarin.Android** project. Make sure build action is GoogleServicesJson
 
