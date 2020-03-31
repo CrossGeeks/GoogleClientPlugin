@@ -29,7 +29,7 @@ After creating your project and enabling Google Sign In on the Google Firebase C
 
 For our example application we will use a debug key, but to publish your app to the store, you will need a different SHA-1 key. You can read more about it [here](https://docs.microsoft.com/en-us/xamarin/android/platform/maps-and-location/maps/obtaining-a-google-maps-api-key?tabs=vswin#Obtaining_your_Signing_Key_Fingerprint). 
 
-For the SHA-1 debug key you will need to modify the command bellow, open a CMD or Terminal and paste the bash:
+For the SHA-1 debug key you will need to modify the command below, open a CMD or Terminal and paste the bash:
 
 **macOS**
 ```bash
