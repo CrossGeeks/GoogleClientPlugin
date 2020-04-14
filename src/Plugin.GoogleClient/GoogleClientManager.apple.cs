@@ -19,8 +19,10 @@ namespace Plugin.GoogleClient
         // Class Debug Tag
         private String Tag = typeof(GoogleClientManager).FullName;
 
-        public string ActiveToken { get { return _activeToken; } }
-        string _activeToken { get; set; }
+        public string IdToken { get { return _idToken; } }
+        public string AccessToken { get { return _accessToken; } }
+        static string _idToken { get; set; }
+        static string _accessToken { get; set; }
         static string _clientId { get; set; }
 
         public GoogleUser CurrentUser
@@ -134,8 +136,10 @@ namespace Plugin.GoogleClient
                 {
                     if (error == null)
                     {
-                        _activeToken = authentication.AccessToken;
-                        System.Console.WriteLine($"Active Token: {_activeToken}");
+                        _accessToken = authentication.AccessToken;
+                        _idToken = authentication.IdToken;
+                        System.Console.WriteLine($"Id Token: {_idToken}");
+                        System.Console.WriteLine($"Access Token: {_accessToken}");
                     }
 
                 });
@@ -214,7 +218,8 @@ namespace Plugin.GoogleClient
 
             if (IsLoggedIn)
             {
-                _activeToken = null;
+                _idToken = null;
+                _accessToken = null;
                 SignIn.SharedInstance.SignOutUser();
                 // Send the logout result to the receivers
                 OnLogoutCompleted(EventArgs.Empty);
@@ -323,8 +328,10 @@ namespace Plugin.GoogleClient
                 {
                     if(error ==null)
                     {
-                        _activeToken = authentication.AccessToken;
-                        System.Console.WriteLine($"Active Token: {_activeToken}");
+                        _accessToken = authentication.AccessToken;
+                        _idToken = authentication.IdToken;
+                        System.Console.WriteLine($"Id Token: {_idToken}");
+                        System.Console.WriteLine($"Access Token: {_accessToken}");
                     }
              
                 });

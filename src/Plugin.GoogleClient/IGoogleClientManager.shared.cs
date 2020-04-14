@@ -80,7 +80,8 @@ namespace Plugin.GoogleClient
         Task<GoogleResponse<GoogleUser>> LoginAsync();
         Task<GoogleResponse<GoogleUser>> SilentLoginAsync();
         void Logout();
-        string ActiveToken { get; }
+        string IdToken { get; }
+        string AccessToken { get; }
         GoogleUser CurrentUser { get; }
         bool IsLoggedIn { get; }
         //DateTime TokenExpirationDate { get; }
