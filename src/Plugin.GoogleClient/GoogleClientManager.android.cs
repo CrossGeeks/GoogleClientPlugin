@@ -97,7 +97,7 @@ namespace Plugin.GoogleClient
             AuthActivityID = requestCode;
         }
 
-        static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
+        EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
         public event EventHandler<GoogleClientResultEventArgs<GoogleUser>> OnLogin
         {
             add => _onLogin += value;
@@ -154,7 +154,7 @@ namespace Plugin.GoogleClient
             return await _loginTcs.Task;
         }
 
-        static EventHandler _onLogout;
+        EventHandler _onLogout;
         public event EventHandler OnLogout
         {
             add => _onLogout += value;
@@ -200,7 +200,7 @@ namespace Plugin.GoogleClient
         public string ActiveToken { get { return _activeToken; } }
         static string _activeToken { get; set; }
 
-        static EventHandler<GoogleClientErrorEventArgs> _onError;
+        EventHandler<GoogleClientErrorEventArgs> _onError;
         public event EventHandler<GoogleClientErrorEventArgs> OnError
         {
             add => _onError += value;
@@ -219,7 +219,7 @@ namespace Plugin.GoogleClient
       
         }
 
-        private static void OnSignInSuccessful(GoogleSignInAccount userAccount)
+        void OnSignInSuccessful(GoogleSignInAccount userAccount)
         {
             GoogleUser googleUser = new GoogleUser
             {
@@ -269,7 +269,7 @@ namespace Plugin.GoogleClient
             _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
         }
 
-        private static void OnSignInFailed(ApiException apiException)
+        void OnSignInFailed(ApiException apiException)
         {
             GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
             Exception exception = null;
