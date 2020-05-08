@@ -26,7 +26,10 @@ n﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
     <Title>Google Client Plugin for Xamarin</Title>
     <Summary>Google authentication handling across Xamarin.iOS and Xamarin.Android</Summary>
     <Description>Google authentication handling across Xamarin.iOS and Xamarin.Android</Description>
-    <PackageReleaseNotes>BREAKING CHANGE: Expose IdToken and AccessToken instead of ActiveToken\n ActiveToken property was removed</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      BREAKING CHANGE: Expose IdToken and AccessToken instead of ActiveToken.
+      ActiveToken property was removed
+    </PackageReleaseNotes>
     <Authors>Luis Pujols</Authors>
     <Owners>pujolsluis,crossgeeks</Owners>
     <Copyright>Copyright 2018</Copyright>
