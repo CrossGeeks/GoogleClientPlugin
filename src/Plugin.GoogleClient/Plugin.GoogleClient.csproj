@@ -74,7 +74,7 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="5.0.2.1" />
     <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="6.6.6" />
-    <PackageReference Include="Xamarin.Build.Download" Version="0.4.11" />
+    <PackageReference Include="Xamarin.Build.Download" Version="0.10.0" />
     <Compile Include="**\*.apple.cs" />
     <Compile Include="**\*.apple.*.cs" />
   </ItemGroup>
