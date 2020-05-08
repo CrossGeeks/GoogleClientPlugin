@@ -173,7 +173,8 @@ namespace Plugin.GoogleClient
             if (GoogleSignIn.GetLastSignedInAccount(CurrentActivity)!=null)
             {
                 //Auth.GoogleSignInApi.SignOut(GoogleApiClient);
-                _activeToken = null;
+                _idToken = null;
+                _accessToken = null;
                 mGoogleSignInClient.SignOut();
                 //GoogleApiClient.Disconnect();
 
@@ -197,8 +198,10 @@ namespace Plugin.GoogleClient
             }
         }
 
-        public string ActiveToken { get { return _activeToken; } }
-        static string _activeToken { get; set; }
+        public string IdToken { get { return _idToken; } }
+        public string AccessToken { get { return _accessToken; } }
+        static string _idToken { get; set; }
+        static string _accessToken { get; set; }
 
         EventHandler<GoogleClientErrorEventArgs> _onError;
         public event EventHandler<GoogleClientErrorEventArgs> OnError
@@ -231,8 +234,8 @@ namespace Plugin.GoogleClient
                 Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
             };
 
-            _activeToken = userAccount.IdToken;
-            System.Console.WriteLine($"Active Token: {_activeToken}");
+            _idToken = userAccount.IdToken;
+            System.Console.WriteLine($"Id Token: {_idToken}");
 
 
             if (userAccount.GrantedScopes != null &&  userAccount.GrantedScopes.Count>0)
@@ -246,9 +249,9 @@ namespace Plugin.GoogleClient
 
                             System.Console.WriteLine($"Scopes: {scopes}");
 
-                            var accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
+                            _accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
 
-                            System.Console.WriteLine($"Access Token: {accessToken}");
+                            System.Console.WriteLine($"Access Token: {_accessToken}");
                          }
                         catch (Exception ex)
                         {
