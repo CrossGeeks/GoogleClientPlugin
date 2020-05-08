@@ -84,21 +84,21 @@ namespace Plugin.GoogleClient
             //SignIn.SharedInstance.ShouldFetchBasicProfile = true;
         }
 
-        private static string GetClientIdFromGoogleServiceDictionary()
+        static string GetClientIdFromGoogleServiceDictionary()
         {
             var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
             _clientId = googleServiceDictionary["CLIENT_ID"].ToString();
             return googleServiceDictionary["CLIENT_ID"].ToString();
         }
 
-        static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
+        EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
         event EventHandler<GoogleClientResultEventArgs<GoogleUser>> IGoogleClientManager.OnLogin
         {
             add => _onLogin += value;
             remove => _onLogin -= value;
         }
         
-        static EventHandler _onLogout;
+        EventHandler _onLogout;
         public event EventHandler OnLogout
         {
             add => _onLogout += value;
@@ -194,7 +194,7 @@ namespace Plugin.GoogleClient
             return await _loginTcs.Task;
         }
 
-		public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+	public static bool OnOpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
             var openUrlOptions = new UIApplicationOpenUrlOptions(options);
             return SignIn.SharedInstance.HandleUrl(url);
@@ -227,7 +227,7 @@ namespace Plugin.GoogleClient
             _onLogout?.Invoke(this, e);
         }
 
-        static EventHandler<GoogleClientErrorEventArgs> _onError;
+        EventHandler<GoogleClientErrorEventArgs> _onError;
         public event EventHandler<GoogleClientErrorEventArgs> OnError
         {
             add => _onError += value;
@@ -235,7 +235,7 @@ namespace Plugin.GoogleClient
         }
 
 
-		public void DidSignIn(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
+	public void DidSignIn(SignIn signIn, Google.SignIn.GoogleUser user, NSError error)
         {
             var isSuccessful = user != null && error == null;
 
@@ -292,7 +292,7 @@ namespace Plugin.GoogleClient
         }
 
 
-        private void UpdatePresentedViewController()
+        void UpdatePresentedViewController()
         {
             var window = UIApplication.SharedApplication.KeyWindow;
             var viewController = window.RootViewController;
@@ -305,7 +305,7 @@ namespace Plugin.GoogleClient
         }
 
 
-        private void OnSignInSuccessful(Google.SignIn.GoogleUser user)
+        void OnSignInSuccessful(Google.SignIn.GoogleUser user)
         {
             GoogleUser googleUser = new GoogleUser
                 {
