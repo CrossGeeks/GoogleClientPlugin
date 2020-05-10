@@ -20,7 +20,7 @@
     <PackageLicenseUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/CrossGeeks/GoogleClientPlugin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/CrossGeeks/GoogleClientPlugin</RepositoryUrl>
-    <PackageIconUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/GoogleClient/art/icon.png?raw=true</PackageIconUrl>
+    <PackageIconUrl>https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/art/icon.png?raw=true</PackageIconUrl>
     <PackageTags>xamarin, ios, android, xamarin.forms, plugin, google client, authentication, google</PackageTags>
 
     <Title>Google Client Plugin for Xamarin</Title>
