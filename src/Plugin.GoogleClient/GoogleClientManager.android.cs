@@ -97,7 +97,7 @@ namespace Plugin.GoogleClient
             AuthActivityID = requestCode;
         }
 
-        static EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
+        EventHandler<GoogleClientResultEventArgs<GoogleUser>> _onLogin;
         public event EventHandler<GoogleClientResultEventArgs<GoogleUser>> OnLogin
         {
             add => _onLogin += value;
@@ -154,7 +154,7 @@ namespace Plugin.GoogleClient
             return await _loginTcs.Task;
         }
 
-        static EventHandler _onLogout;
+        EventHandler _onLogout;
         public event EventHandler OnLogout
         {
             add => _onLogout += value;
@@ -173,7 +173,8 @@ namespace Plugin.GoogleClient
             if (GoogleSignIn.GetLastSignedInAccount(CurrentActivity)!=null)
             {
                 //Auth.GoogleSignInApi.SignOut(GoogleApiClient);
-                _activeToken = null;
+                _idToken = null;
+                _accessToken = null;
                 mGoogleSignInClient.SignOut();
                 //GoogleApiClient.Disconnect();
 
@@ -197,10 +198,12 @@ namespace Plugin.GoogleClient
             }
         }
 
-        public string ActiveToken { get { return _activeToken; } }
-        static string _activeToken { get; set; }
+        public string IdToken { get { return _idToken; } }
+        public string AccessToken { get { return _accessToken; } }
+        static string _idToken { get; set; }
+        static string _accessToken { get; set; }
 
-        static EventHandler<GoogleClientErrorEventArgs> _onError;
+        EventHandler<GoogleClientErrorEventArgs> _onError;
         public event EventHandler<GoogleClientErrorEventArgs> OnError
         {
             add => _onError += value;
@@ -219,7 +222,7 @@ namespace Plugin.GoogleClient
       
         }
 
-        private static void OnSignInSuccessful(GoogleSignInAccount userAccount)
+        void OnSignInSuccessful(GoogleSignInAccount userAccount)
         {
             GoogleUser googleUser = new GoogleUser
             {
@@ -231,8 +234,8 @@ namespace Plugin.GoogleClient
                 Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
             };
 
-            _activeToken = userAccount.IdToken;
-            System.Console.WriteLine($"Active Token: {_activeToken}");
+            _idToken = userAccount.IdToken;
+            System.Console.WriteLine($"Id Token: {_idToken}");
 
 
             if (userAccount.GrantedScopes != null &&  userAccount.GrantedScopes.Count>0)
@@ -246,9 +249,9 @@ namespace Plugin.GoogleClient
 
                             System.Console.WriteLine($"Scopes: {scopes}");
 
-                            var accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
+                            _accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
 
-                            System.Console.WriteLine($"Access Token: {accessToken}");
+                            System.Console.WriteLine($"Access Token: {_accessToken}");
                          }
                         catch (Exception ex)
                         {
@@ -269,7 +272,7 @@ namespace Plugin.GoogleClient
             _loginTcs.TrySetResult(new GoogleResponse<GoogleUser>(googleArgs));
         }
 
-        private static void OnSignInFailed(ApiException apiException)
+        void OnSignInFailed(ApiException apiException)
         {
             GoogleClientErrorEventArgs errorEventArgs = new GoogleClientErrorEventArgs();
             Exception exception = null;

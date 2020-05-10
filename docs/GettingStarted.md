@@ -1,6 +1,6 @@
 ### Getting Started
 
-If developing an application that supports iOS and Android, make sure you installed the NuGet package into your PCL project and Client projects.
+If developing an application that supports iOS and Android, make sure you installed the NuGet package into your NETStandard project and Client projects.
 
 ### Setup
 * [Google Firebase Console Setup](GoogleFirebaseConsoleSetup.md)
@@ -38,8 +38,8 @@ Here is an example on how to logout of the Google Client:
 ```
 
 ### Available Properties
-* **ActiveToken** (Signed In user token)
-
+* **AccessToken** (Signed In user access token)
+* **IdToken** (Signed In user id token)
 
 ### Events
 
@@ -124,7 +124,7 @@ If you have a more complex development flow, that integrates CI in which it's be
     */
     GoogleClientManager.Initialize(this, "Xewa3121FDvbam", "Xewa3121FDvbam");
 ```
-After applying this changes, you should now be able to see that your ActiveToken no longer returns null when you access it on the plugin after a successful login.
+After applying this changes, you should now be able to see that your AccessToken no longer returns null when you access it on the plugin after a successful login.
 
 #### iOS
 ```cs

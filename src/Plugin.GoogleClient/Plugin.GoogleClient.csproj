@@ -1,7 +1,7 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.41">
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;MonoAndroid90;Xamarin.iOS10;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;MonoAndroid90;MonoAndroid10.0;Xamarin.iOS10;</TargetFrameworks>
     <AssemblyName>Plugin.GoogleClient</AssemblyName>
     <RootNamespace>Plugin.GoogleClient</RootNamespace>
     <PackageId>Plugin.GoogleClient</PackageId>
@@ -26,7 +26,7 @@
     <Title>Google Client Plugin for Xamarin</Title>
     <Summary>Google authentication handling across Xamarin.iOS and Xamarin.Android</Summary>
     <Description>Google authentication handling across Xamarin.iOS and Xamarin.Android</Description>
-    <PackageReleaseNotes>Bug fixes and improvements</PackageReleaseNotes>
+    <PackageReleaseNotes>BREAKING CHANGE: Expose IdToken and AccessToken instead of ActiveToken. ActiveToken property was removed</PackageReleaseNotes>
     <Authors>Luis Pujols</Authors>
     <Owners>pujolsluis,crossgeeks</Owners>
     <Copyright>Copyright 2018</Copyright>
@@ -72,9 +72,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="5.0.1" />
-    <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="6.1.0" />
-    <PackageReference Include="Xamarin.Build.Download" Version="0.4.11" />
+    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="5.0.2.1" />
+    <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="6.6.6" />
+    <PackageReference Include="Xamarin.Build.Download" Version="0.10.0" />
     <Compile Include="**\*.apple.cs" />
     <Compile Include="**\*.apple.*.cs" />
   </ItemGroup>
