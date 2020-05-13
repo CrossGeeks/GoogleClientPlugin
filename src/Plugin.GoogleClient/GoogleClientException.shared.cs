@@ -1,9 +1,9 @@
 ﻿using System;
 namespace Plugin.GoogleClient.Shared
 {
-	public class GoogleClientBaseException : Exception
+    public class GoogleClientBaseException : Exception
     {
-        public const string SignInDefaultErrorMessage = "The Google Sign In could not complete it's process correctly.";
+        public const string SignInDefaultErrorMessage = "The Google Sign In could not complete it's process correctly. Make sure you have added google-services.json file to your project and the SHA certificate fingerprint to your Firebase Android App in the Firebase Console Portal";
         public const string SignInUnknownErrorMessage = "An unknown error has occured.";
         public const string SignInKeychainErrorMessage = "There was a problem reading or writing to the application keychain.";
         public const string SignInNoSignInHandlersInstalledErrorMessage = "No appropriate applications are installed on the user's device which can handle sign-in.";
@@ -13,7 +13,7 @@ namespace Plugin.GoogleClient.Shared
         public const string SignInInvalidAccountErrorMessage = "Attempted to connect to the service with an invalid account name specified.";
         public const string SignInNetworkErrorMessage = "A network error occurred. Retrying should resolve the problem.";
         public const string SignInInternalErrorMessage = "An internal error occurred. Retrying should resolve the problem.";
-		public const string SignInRequiredErrorMessage = "The client attempted to connect to the service but the user is not signed in.";
+        public const string SignInRequiredErrorMessage = "The client attempted to connect to the service but the user is not signed in.";
         public const string SignInFailedErrorMessage = "The sign in attempt didn't succeed with the current account.";
         public const string ClientNotInitializedErrorMessage = "The Google Plugin is not initialized correctly.";
 
