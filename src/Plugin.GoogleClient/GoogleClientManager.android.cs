@@ -243,7 +243,7 @@ namespace Plugin.GoogleClient
                      var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
                      System.Console.WriteLine($"Scopes: {scopes}");	
 		     var tcs = new TaskCompletionSource<string>();
-		     Task.Run(() => 
+		     System.Threading.Tasks.Task.Run(() => 
 		     {
 		        try	
                         {	
