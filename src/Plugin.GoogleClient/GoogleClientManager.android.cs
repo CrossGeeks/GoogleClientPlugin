@@ -240,28 +240,11 @@ namespace Plugin.GoogleClient
 
             if (userAccount.GrantedScopes != null &&  userAccount.GrantedScopes.Count>0)
             {
-               
-                    System.Threading.Tasks.Task.Run(() =>
-                    {
-                        try
-                        {
-                            var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
+                     var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
 
-                            System.Console.WriteLine($"Scopes: {scopes}");
-
-                            _accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
-
-                            System.Console.WriteLine($"Access Token: {_accessToken}");
-                         }
-                        catch (Exception ex)
-                        {
-                            System.Console.WriteLine($"Ex: {ex}");
-                        }
-                     });
-                   
-                
-             
-
+                    _accessToken = GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes);
+		    
+		    System.Console.WriteLine($"Access Token: {_accessToken}");
             }
 
             var googleArgs =
