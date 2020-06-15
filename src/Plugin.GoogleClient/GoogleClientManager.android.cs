@@ -222,7 +222,7 @@ namespace Plugin.GoogleClient
       
         }
 
-        void OnSignInSuccessful(GoogleSignInAccount userAccount)
+        async void OnSignInSuccessful(GoogleSignInAccount userAccount)
         {
             GoogleUser googleUser = new GoogleUser
             {
