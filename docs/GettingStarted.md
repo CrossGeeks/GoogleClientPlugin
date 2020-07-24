@@ -157,10 +157,7 @@ public static void Initialize(
 ```cs
 //iOS initialize method.
 public static void Initialize(
-            Activity activity,
             string serverClientId = null,
-            string clientId = null,
-            Api[] apis = null,
             string[] scopes = null)
 ```
 
