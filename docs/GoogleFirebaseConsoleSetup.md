@@ -63,7 +63,14 @@ Other alternative is to adding this method and calling it on the MainActivity On
    }
 ```
 
-**4.** Finally, you will be able to download the **google-services.json** file and add it to your **Xamarin.Android** project. Make sure build action is GoogleServicesJson
+**4.** Finally, you will be able to download the **google-services.json** file and add it to your **Xamarin.Android** project. Make sure build action is **GoogleServicesJson**
+
+> The **GoogleServicesJson** build action may be unavailable in visual studio for mac, manually add the following to YourProject.Android.csproj
+```xml
+<ItemGroup>
+  <GoogleServicesJson Include="google-services.json" />
+</ItemGroup>
+```
 
 ![Creating Application 4](https://github.com/CrossGeeks/GoogleClientPlugin/blob/master/images/ConfigurationFileAndroid.PNG?raw=true)
 
